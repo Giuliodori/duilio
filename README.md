@@ -284,16 +284,19 @@ duilio/
 │       ├── README.md            # Configuration and debug tools
 │       └── src/
 │
-└── docs/
-    ├── getting-started/
-    ├── communication/
-    ├── drivers/
-    ├── safety/
-    └── images/
-
-
+├── docs/
+│   ├── getting-started/
+│   ├── communication/
+│   ├── drivers/
+│   ├── safety/
+│   └── images/
+│
+├── CHANGELOG.md                 # Project changelog
+├── CONTRIBUTING.md              # Contribution guidelines
+├── SECURITY.md                  # Security and safety policy
+└── .github/                     # Issue templates and workflows
+```
 ---
-
 © 2026 Fabio Giuliodori — Duilio Project
 
 This structure will evolve as the project grows.
