@@ -1,7 +1,14 @@
          3 2   B I T   M O T I O N   C O N T R O L
                  Fabio Giuliodori © 2026
 
+<p align="center">
+  <img src="docs/images/logo_duilio.png" width="600">
+</p>
+**Duilio F4** is a modular control board designed for robotics and remote control systems.                 
 
+<p align="center">
+  <img src="docs/images/duilio_f4_top.png" width="600">
+</p>
 **Duilio F4** is a modular control board designed for robotics and remote control systems.
 
 It can be used:
