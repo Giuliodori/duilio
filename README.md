@@ -295,10 +295,12 @@ duilio/
 ├── CONTRIBUTING.md              # Contribution guidelines
 ├── SECURITY.md                  # Security and safety policy
 └── .github/                     # Issue templates and workflows
+
+This structure will evolve as the project grows.
 ```
 ---
 © 2026 Fabio Giuliodori — Duilio Project
 
-This structure will evolve as the project grows.
+
 
 
