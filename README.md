@@ -1,16 +1,17 @@
-         3 2   B I T   M O T I O N   C O N T R O L
-                 Fabio Giuliodori © 2026
-
 <p align="center">
   <img src="docs/images/logo_duilio.png" width="600">
 </p>
-**Duilio F4** is a modular control board designed for robotics and remote control systems.                 
+              
 
 <p align="center">
   <img src="docs/images/duilio_f4_top.png" width="600">
 </p>
-**Duilio F4** is a modular control board designed for robotics and remote control systems.
 
+
+# DUILIO F4 — Motion Control Board
+Modular STM32F411-based motion control board for robotics and distributed systems
+               
+**Duilio F4** is a modular control board designed for robotics and remote control systems.   
 It can be used:
 - as a **standalone controller**
 - as an **expansion board for Raspberry Pi**
@@ -64,7 +65,7 @@ Duilio F4 can control a wide range of motor drivers, including:
 - industrial motor drivers using enable, direction and speed signals
 
 Examples of supported control modes:
-- **speed control**
+- **speed limit control**
 - **position control**
 - mixed configurations (different modes on different motors)
 
@@ -163,3 +164,8 @@ duilio/
 ├── firmware/duilio-f4/   # Embedded firmware
 ├── tools/duilio-tools/   # Configuration and debug tools
 └── docs/                 # Documentation and guides
+
+---
+
+© 2026 Fabio Giuliodori — Duilio Project
+
