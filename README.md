@@ -1,4 +1,4 @@
-<p align="center">
+z<p align="center">
   <img src="docs/images/logo_duilio.png" width="600">
 </p>
 
@@ -318,7 +318,25 @@ Duilio F4 is suitable for a wide range of applications:
   A flexible platform for rapid development and iteration.
 
 ---
+## Real-world inspiration
 
+Duilio F4 is the result of hands-on experience gained while building
+real machines and robotic platforms.
+
+Some of these projects are documented here:
+
+▶️ **Remote-controlled mower 2wd** https://youtu.be/Uh7IwvmYxhc  
+
+▶️ **Remote-controlled mower 4wd** https://youtu.be/W-mF7ZH8-0U
+
+▶️ **Trike** https://youtu.be/o_xk7uZkcA0
+
+▶️ **Stroller** https://youtu.be/8yrex-ifpPg
+
+▶️ **Shaker** https://youtu.be/M_itfUgND1k
+
+
+---
 ## Duilio Tools (configuration software)
 
 **Duilio Tools** is the official configuration and debugging software.
