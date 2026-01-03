@@ -16,8 +16,8 @@
 </p>
 
 # DUILIO F4 — Motion Control Board
-**After the wheel, real motion control.**
-Turning simple motor drivers into reliable, coordinated motion systems.
+The wheel is already there.
+**Duilio turns motor drivers into real motion control.**
 
 In robotics and mechatronics, the real challenge is not driving motors,
 but turning simple motor drivers into reliable, coordinated and safe motion systems.
