@@ -4,7 +4,7 @@
 
 <div align="center">
   <img src="docs/images/duilio_f4_top.png"
-       style="display:block; margin:auto; width:85%;">
+       style="display:block; margin:auto; width:100%;">
 </div>
 
 
@@ -339,6 +339,7 @@ Some of these projects are documented here:
 ---
 ## Duilio Tools (configuration software)
 
+
 **Duilio Tools** is the official configuration and debugging software.
 
 It allows:
@@ -346,6 +347,14 @@ It allows:
 - parameter tuning without writing code
 - real-time monitoring and diagnostics
 
+<div align="left">
+  <img src="docs/images/duilio-tools_2.png"
+       style="display:block; margin:auto; width:100%;">
+</div>  
+<div align="left">
+  <img src="docs/images/duilio-tools_1.png"
+       style="display:block; margin:auto; width:95%;">
+</div>  
 Duilio Tools is designed so that **even users without specific programming knowledge**
 can configure and use the board effectively.
 
