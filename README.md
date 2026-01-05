@@ -18,10 +18,13 @@
 # DUILIO F4 — Motion Control Board
 **The wheel is already there. Duilio makes it move right.**
 
+📩 **info@duilio-project.it** · 🌐 **https://duilio.cc**
+
 You already have motors and drivers.  
 What’s missing is **reliable, coordinated and safe motion control**.
 
-Duilio F4 sits between your control source (RC receiver, PC, Raspberry Pi or SBCs) and **any external motor driver**, adding motion logic that usually gets reinvented every time: ramps, limits, coordination and failsafe.
+Duilio F4 interfaces with control sources (RC receivers, PCs, Raspberry Pi or SBCs) and **any external motor driver**, embedding motion logic that usually gets reinvented every time: ramps, limits, coordination and failsafe.
+
 
 ## What can you build with Duilio F4?
 
@@ -157,12 +160,16 @@ Documentation and software are published progressively as hardware validation ad
 ---
 
 ## System architecture
-Duilio F4 can be controlled by:
-- Raspberry Pi
-- single-board computers (Orange Pi, Rock Pi, Jetson Nano, …)
+
+Duilio F4 can operate as a **standalone motion controller** or as part of a **host-controlled system**.
+
+It can be driven by:
+- RC receivers
+- Raspberry Pi and other SBCs (Orange Pi, Rock Pi, Jetson Nano, …)
 - standard PCs or industrial computers
 
-In host-controlled configurations, Duilio F4 handles real-time motion control and I/O, while the host provides high-level logic, UI, or networking.
+When a host is present, Duilio F4 handles **deterministic real-time motion control and I/O**, while the host focuses on high-level logic, UI, networking or supervision.
+
 
 ---
 
@@ -283,58 +290,35 @@ Advanced users remain free to bypass the tool and work directly with the firmwar
 
 ---
 
+## Get involved / Early access
+
+Duilio F4 is entering the final hardware validation phase.
+
+You can get involved in two ways:
+
+**1. Contribute to the project**  
+If you are interested in:
+- motion control profiles
+- real-world testing
+- documentation or tools
+- technical collaboration
+
+your feedback and experience are welcome.
+
+**2. Early access to the hardware**  
+A limited number of **pre-production Duilio F4 boards** will be available for:
+- beta testing on real machines
+- early adopters and system integrators
+- feedback-driven refinement before the first production batch
+
+For the launch phase, the **target cost for early access boards is in the €20–30 range**,  
+depending on configuration (e.g. THT connectors mounted or not) and production volume.
+
+If you are interested in contributing or receiving early hardware access:  
+📩 **info@duilio-project.it**  
+🌐 **https://duilio.cc**
 
 
-
-## Planned repository structure
-```text
-duilio/
-├── hardware/
-│   └── duilio-f4/
-│       ├── README.md            # Board overview and specifications
-│       ├── pinout/              # Functional pin mapping
-│       ├── images/              # Board images and renders
-│       └── revisions/           # Hardware revisions and notes
-│
-├── firmware/
-│   └── duilio-f4/
-│       ├── README.md            # Firmware overview and build notes
-│       ├── src/
-│       ├── include/
-│       └── profiles/            # Driver control profiles
-│
-├── tools/
-│   └── duilio-tools/
-│       ├── README.md            # Configuration and debug tools
-│       └── src/
-│
-├── docs/
-│   ├── getting-started/
-│   ├── communication/
-│   ├── drivers/
-│   ├── safety/
-│   └── images/
-│
-├── CHANGELOG.md                 # Project changelog
-├── CONTRIBUTING.md              # Contribution guidelines
-├── SECURITY.md                  # Security and safety policy
-└── .github/                     # Issue templates and workflows
-
-
-This structure will evolve as the project grows.
-```
-## Project governance
-
-See also:
-- [CONTRIBUTING.md](./CONTRIBUTING.md) — how to contribute
-- [SECURITY.md](./SECURITY.md) — responsible disclosure and safety
-- [CHANGELOG.md](./CHANGELOG.md) — project history
-
-
-## Collaboration
-
-Open to collaboration supporting the next development phases
-of the Duilio platform.
 
 ---
 © 2026 Fabio Giuliodori — Duilio Project
