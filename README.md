@@ -16,7 +16,9 @@
 </p>
 
 # DUILIO F4 — Motion Control Board
-**The wheel is already there. Duilio makes it move right.**
+
+***The wheel is already made, Duilio makes it move the right way.***
+
 
 📩 **info@duilio-project.it** · 🌐 **https://duilio.cc**
 
