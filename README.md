@@ -23,10 +23,18 @@
 📩 **info@duilio-project.it** · 🌐 **https://duilio.cc**
 
 You already have motors and drivers.  
-What’s missing is **reliable, coordinated and safe motion control**.
+What’s missing is **reliable and coordinated motion control behavior**.
 
 Duilio F4 interfaces with control sources (RC receivers, PCs, Raspberry Pi or SBCs) and **any external motor driver**, embedding motion logic that usually gets reinvented every time: ramps, limits, coordination and failsafe.
 
+## Intended use
+
+Duilio F4 is a **development board** intended for **makers, advanced hobbyists and developers**,  
+designed for **prototyping, experimentation and motion-control architecture development**.
+
+It is **not currently certified as an industrial controller** and **not intended for safety-critical or life-critical applications**.
+
+---
 
 ## What can you build with Duilio F4?
 
@@ -39,8 +47,9 @@ Duilio F4 interfaces with control sources (RC receivers, PCs, Raspberry Pi or SB
 - **Custom servo motors of any power**  
   Turn **any motor + any driver** into a servo-like axis with limits, ramps and safety.
 
-- **Rugged or industrial motion systems**  
+- **Rugged motion systems inspired by industrial practices**
   Consistent motion behavior using inexpensive or industrial drivers.
+
 
 ## Motors and drivers
 
@@ -52,7 +61,7 @@ If a driver can be controlled via **PWM, DIR, analog or RC-style signals**, Duil
 Driving a motor is easy.  
 Making a machine **behave predictably and safely** is not.
 
-Duilio F4 removes the need to reinvent motion control logic, turning simple motor drivers into **real motion controllers** — without writing custom application firmware.
+Duilio F4 removes the need to reinvent motion control logic, turning simple motor drivers into **motion-controller–like systems** — without writing custom application firmware.
 
 **If you already have a motor driver, Duilio F4 makes it real motion control.**
 
