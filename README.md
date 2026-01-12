@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/logo_duilio.png" width="600">
+  <img src="docs/images/logo_duilio.svg" width="800">
 </p>
 
 <div align="center">
