@@ -25,12 +25,15 @@
 You already have motors and drivers.  
 What’s missing is **reliable and coordinated motion control behavior**.
 
+DUILIO F4 is a **robust STM32-based motion control development board** with ready-to-use firmware and built-in safety logic.
+
 Duilio F4 interfaces with control sources (RC receivers, PCs, Raspberry Pi or SBCs) and **any external motor driver**, embedding motion logic that usually gets reinvented every time: ramps, limits, coordination and failsafe.
 
 ## Intended use
 
 Duilio F4 is a **development board** intended for **makers, advanced hobbyists and developers**,  
 designed for **prototyping, experimentation and motion-control architecture development**.
+While designed as a development board, Duilio F4 is intended to be used as a **finished motion controller** in real machines.
 
 
 ---
@@ -63,6 +66,12 @@ Making a machine **behave predictably and safely** is not.
 Duilio F4 removes the need to reinvent motion control logic, turning simple motor drivers into **motion-controller–like systems** — without writing custom application firmware.
 
 **If you already have a motor driver, Duilio F4 makes it real motion control.**
+
+By handling motion logic and safety on-board, Duilio F4 often results in a **lower total system cost** compared to generic controllers:
+- fewer external boards
+- less custom firmware
+- simpler wiring
+- faster time to a working machine
 
 
 ---
@@ -376,6 +385,7 @@ depending on configuration (e.g. THT connectors mounted or not) and production v
 
 If you are interested in contributing or receiving early hardware access:  
 📩 **info@duilio-project.it**  
+📩 **info@duilio.cc.it**  
 🌐 **https://duilio.cc**
 
 
