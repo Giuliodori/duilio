@@ -5,9 +5,8 @@ on:
   push:
     paths:
       - "docs/hardware/**"
+      - "!docs/hardware/releases/**"
       - "docs/images/**"
-    paths-ignore:
-      - "docs/hardware/releases/**"
 
 jobs:
   build-pdf:
@@ -22,10 +21,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Ensure output directory exists
           mkdir -p docs/hardware/releases
 
-          # Collect markdown files in order
           FILES=$(find docs/hardware -maxdepth 1 -name "*.md" | sort)
           echo "Using markdown files:"
           echo "$FILES"
@@ -35,7 +32,6 @@ jobs:
             exit 1
           fi
 
-          # Build PDF
           docker run --rm \
             -v "$PWD:/data" \
             -w /data \
@@ -63,6 +59,7 @@ jobs:
         with:
           commit_message: "Auto-build: update Duilio_F4_User_Manual.pdf"
           file_pattern: docs/hardware/releases/Duilio_F4_User_Manual.pdf
+
 
 
 
