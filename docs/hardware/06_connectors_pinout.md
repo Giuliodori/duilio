@@ -2,6 +2,11 @@ This section lists all external connectors of the DUILIO F4.
 Pin numbering follows the board silkscreen.
 Signal direction and electrical limits are reported in the "Notes" column.
 The electrical limits indicated per pin are subject to total current constraints of the board power system.
+---
+
+![DUILIO F4 – Connector and pinout reference](../images/duilio_f4_pin.png)
+
+---
 
 > NOTE: Power distribution and current limits (system-level)
 > - Individual pin current ratings are maximum limits, not guarantees.
