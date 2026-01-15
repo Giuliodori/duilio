@@ -6,35 +6,36 @@ on:
     paths:
       - "docs/hardware/**"
       - "docs/images/**"
+    paths-ignore:
+      - "docs/hardware/releases/**"
 
 jobs:
   build-pdf:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug paths
-        run: |
-          echo "Repo root:"
-          pwd
-          echo "Tree:"
-          ls -la
-          echo "docs:"
-          ls -la docs || true
-          echo "docs/hardware:"
-          ls -la docs/hardware || true
-          echo "docs/images:"
-          ls -la docs/images || true
-
       - name: Build PDF with Pandoc (Docker)
+        shell: bash
         run: |
-          set -e
+          set -euo pipefail
+
+          # Ensure output directory exists
+          mkdir -p docs/hardware/releases
+
+          # Collect markdown files in order
           FILES=$(find docs/hardware -maxdepth 1 -name "*.md" | sort)
-          echo "Using files:"
+          echo "Using markdown files:"
           echo "$FILES"
 
+          if [ -z "$FILES" ]; then
+            echo "ERROR: no markdown files found in docs/hardware"
+            exit 1
+          fi
+
+          # Build PDF
           docker run --rm \
             -v "$PWD:/data" \
             -w /data \
@@ -45,14 +46,23 @@ jobs:
             --resource-path=docs/hardware:docs/images:docs \
             --pdf-engine=xelatex \
             -V geometry:margin=2.5cm \
-            -o Duilio_F4_User_Manual.pdf \
+            -V mainfont="DejaVu Sans" \
+            -V monofont="DejaVu Sans Mono" \
+            -V fontsize=11pt \
+            -o docs/hardware/releases/Duilio_F4_User_Manual.pdf \
             $FILES
 
-      - name: Upload artifact
+      - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
           name: Duilio_F4_User_Manual
-          path: Duilio_F4_User_Manual.pdf
+          path: docs/hardware/releases/Duilio_F4_User_Manual.pdf
+
+      - name: Commit PDF to repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-build: update Duilio_F4_User_Manual.pdf"
+          file_pattern: docs/hardware/releases/Duilio_F4_User_Manual.pdf
 
 
 
