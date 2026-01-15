@@ -165,4 +165,4 @@ The electrical limits indicated per pin are subject to total current constraints
 
 | Pin number | Pin name (silkscreen) | Function | Notes |
 | --- | --- | --- | --- |
-| 84 | USB | USB data / power connection | USB data and power, do not back-power externally |
+| 84 | USB | USB data / power connection | USB data and power, USB data and power, onboard diode prevents external back-powering|
