@@ -16,13 +16,53 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build PDF with Pandoc (LaTeX included)
+      # Fail-fast if any image referenced in docs/hardware/*.md is missing
+      - name: Check referenced images exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Scanning markdown for image references (../images/...)"
+
+          # Extract paths like (../images/xxx.png) from markdown
+          refs=$(grep -RhoE '\(\.\./images/[^\)]+\)' docs/hardware/*.md | tr -d '()' | sort -u || true)
+
+          if [ -z "${refs}" ]; then
+            echo "No image references found."
+            exit 0
+          fi
+
+          echo "Found references:"
+          echo "${refs}"
+          echo ""
+
+          echo "Checking files exist..."
+          while IFS= read -r rel; do
+            # rel is like ../images/foo.png (relative to docs/hardware)
+            # Convert to repo-root relative path
+            full="docs/hardware/${rel}"
+            norm=$(python3 - <<'PY'
+import os,sys
+print(os.path.normpath(sys.argv[1]))
+PY
+"$full")
+
+            if [ ! -f "$norm" ]; then
+              echo "MISSING: ${rel} -> ${norm}"
+              exit 1
+            fi
+          done <<< "${refs}"
+
+          echo "All referenced images exist."
+
+      - name: Build PDF with Pandoc (LaTeX)
         uses: docker://pandoc/latex:latest
         with:
           args: >-
             -f markdown
             --toc
             --toc-depth=2
+            --verbose
+            --pdf-engine=xelatex
             -V geometry:margin=2.5cm
             -o DUILIO_F4_Hardware_Deep_Manual.pdf
             docs/hardware/*.md
@@ -32,3 +72,4 @@ jobs:
         with:
           name: DUILIO_F4_Hardware_Deep_Manual
           path: DUILIO_F4_Hardware_Deep_Manual.pdf
+
