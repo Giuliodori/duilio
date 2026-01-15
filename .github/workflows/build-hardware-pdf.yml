@@ -35,12 +35,8 @@ jobs:
 
           echo "Checking files exist..."
           while IFS= read -r rel; do
-            full="docs/hardware/${rel}"
-            norm=$(python3 - <<'PY'
-import os,sys
-print(os.path.normpath(sys.argv[1]))
-PY
-"$full")
+            # Make an absolute-ish normalized path (no filesystem access needed with -m)
+            norm=$(realpath -m "docs/hardware/${rel}")
 
             if [ ! -f "$norm" ]; then
               echo "MISSING: ${rel} -> ${norm}"
@@ -68,5 +64,6 @@ PY
         with:
           name: DUILIO_F4_Hardware_Deep_Manual
           path: DUILIO_F4_Hardware_Deep_Manual.pdf
+
 
 
