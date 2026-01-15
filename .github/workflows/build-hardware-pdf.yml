@@ -16,14 +16,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Fail-fast if any image referenced in docs/hardware/*.md is missing
       - name: Check referenced images exist
         shell: bash
         run: |
           set -euo pipefail
           echo "Scanning markdown for image references (../images/...)"
 
-          # Extract paths like (../images/xxx.png) from markdown
           refs=$(grep -RhoE '\(\.\./images/[^\)]+\)' docs/hardware/*.md | tr -d '()' | sort -u || true)
 
           if [ -z "${refs}" ]; then
@@ -37,8 +35,6 @@ jobs:
 
           echo "Checking files exist..."
           while IFS= read -r rel; do
-            # rel is like ../images/foo.png (relative to docs/hardware)
-            # Convert to repo-root relative path
             full="docs/hardware/${rel}"
             norm=$(python3 - <<'PY'
 import os,sys
@@ -72,4 +68,5 @@ PY
         with:
           name: DUILIO_F4_Hardware_Deep_Manual
           path: DUILIO_F4_Hardware_Deep_Manual.pdf
+
 
