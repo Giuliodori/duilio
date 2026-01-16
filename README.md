@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="docs/images/logo_duilio.svg" width="800">
 </p>
@@ -16,28 +15,17 @@
   <img src="https://img.shields.io/badge/License-MIT-green">
 </p>
 
-Latest release: v0.1.0 
+**Latest release:** v0.1.0  
 
 # DUILIO F4 — Motion Control Board
 
-***The wheel is already made, Duilio makes it move the right way.***
-
-
 📩 **info@duilio-project.it** · 🌐 **https://duilio.cc**
 
-You already have motors and drivers.  
-What’s missing is **reliable and coordinated motion control behavior**.
+**DUILIO F4** is an **STM32-based motion control board** designed for **real machines and mobile robots**.  
+It provides ready-to-use, profile-based firmware with **built-in safety and failsafe logic**, removing the need to reinvent motion control behavior in every project.
 
-DUILIO F4 is a **robust STM32-based motion control development board** with ready-to-use firmware and built-in safety logic.
-
-Duilio F4 interfaces with control sources (RC receivers, PCs, Raspberry Pi or SBCs) and **any external motor driver**, embedding motion logic that usually gets reinvented every time: ramps, limits, coordination and failsafe.
-
-## Intended use
-
-Duilio F4 is a **development board** intended for **makers, advanced hobbyists and developers**,  
-designed for **prototyping, experimentation and motion-control architecture development**.
-While designed as a development board, Duilio F4 is intended to be used as a **finished motion controller** in real machines.
-
+Duilio F4 connects directly to **RC receivers, USB hosts, Raspberry Pi and other SBCs**, and can **control multiple external motor drivers at the same time**.  
+Motion behavior such as **ramps, limits, coordination and safe states** is handled on-board, independently of the host.
 
 ---
 
@@ -52,30 +40,37 @@ While designed as a development board, Duilio F4 is intended to be used as a **f
 - **Custom servo motors of any power**  
   Turn **any motor + any driver** into a servo-like axis with limits, ramps and safety.
 
-- **Rugged motion systems inspired by industrial practices**
-  Consistent motion behavior using inexpensive or industrial drivers.
+- **Rugged motion systems inspired by industrial practices**  
+  Consistent and predictable motion behavior using hobby or industrial drivers.
 
+---
 
 ## Motors and drivers
 
-Duilio F4 is **motor-agnostic** and **driver-agnostic**.  
-If a driver can be controlled via **PWM, DIR, analog or RC-style signals**, Duilio F4 can manage it.
+Duilio F4 is **motor-agnostic** and **driver-agnostic**.
+
+If a motor driver can be controlled via **PWM, DIR, analog or RC-style signals**, Duilio F4 can manage it — including **multiple drivers simultaneously**.
+
+---
 
 ## Why Duilio F4?
 
 Driving a motor is easy.  
 Making a machine **behave predictably and safely** is not.
 
-Duilio F4 removes the need to reinvent motion control logic, turning simple motor drivers into **motion-controller–like systems** — without writing custom application firmware.
+Duilio F4 embeds motion control logic that usually gets rewritten from scratch:
+- acceleration and deceleration ramps
+- limits and soft limits
+- axis coordination and mixing
+- safety interlocks and failsafe behavior
 
-**If you already have a motor driver, Duilio F4 makes it real motion control.**
+**If you already have a motor driver, Duilio F4 turns it into real motion control.**
 
-By handling motion logic and safety on-board, Duilio F4 often results in a **lower total system cost** compared to generic controllers:
+By handling motion logic and safety on-board, Duilio F4 often results in a **lower total system cost**:
 - fewer external boards
 - less custom firmware
 - simpler wiring
 - faster time to a working machine
-
 
 ---
 
@@ -92,7 +87,7 @@ This configuration applies to **many common motor drivers**, not only ZS-X11.
 
 **Notes:**
 - ENABLE is strongly recommended for failsafe behavior  
-- PWM frequency and logic level are configurable  
+- PWM frequency and logic levels are configurable  
 - The same wiring concept applies to many industrial and hobby drivers
 
 ---
@@ -102,11 +97,11 @@ This configuration applies to **many common motor drivers**, not only ZS-X11.
 
 This example shows a **closed-loop positioning setup** using Duilio F4 with:
 
-- **servo-style / dual-PWM motor drivers** (BTS7960 / IBT-2 style)
-- **two absolute I²C 14-bit encoders (MT6701)**  
+- servo-style / dual-PWM motor drivers (BTS7960 / IBT-2)
+- **two absolute I²C 14-bit encoders (MT6701)**
 - **on-board PID control** for precise positioning
 
-Each motor axis is equipped with its own absolute encoder, allowing:
+Each motor axis uses its own absolute encoder, enabling:
 - precise position feedback
 - repeatable homing without mechanical end-stops
 - stable PID-controlled motion
@@ -115,233 +110,72 @@ Each motor axis is equipped with its own absolute encoder, allowing:
   <img src="docs/images/schema_servo_bts6970.svg" width="90%">
 </p>
 
-**Encoder details:**
-- Type: **MT6701 absolute magnetic encoder**
-- Resolution: **14-bit (16384 positions per revolution)**
-- Interface: **I²C**
-- Each axis uses one dedicated encoder
-
 **Notes:**
 - Forward and reverse motion are handled by **two PWM signals**
 - ENABLE remains available as a **global safety gate**
-- PID loop runs **locally on Duilio**, independent of the host
-- Positioning accuracy depends on mechanical transmission and encoder mounting
+- The PID loop runs **locally on Duilio**, independent of the host
+- Final accuracy depends on mechanics and encoder mounting
 
+---
 
-## Key features — detailed overview
+## Key features — overview
 
-| Category | Feature | Details |
-|--------|--------|--------|
-| **MCU** | Microcontroller | STM32F411 (64-pin, Cortex-M4F) |
-| | Real-time control | Deterministic real-time motion control handled on-board |
-| | Firmware | Pre-developed, profile-based (no application code required) |
-| |
-| **Motion control** | Motor axes | **2 independent motion axes per board** |
-| | Control modes | **Speed, position and torque control** |
-| | Torque control | Via **external current sensors** |
-| | Motion features | Acceleration / deceleration ramps, limits, soft limits |
-| | Coordination | Axis coordination and motion mixing (profile-dependent) |
-| | Safety | Interlocks, watchdogs and failsafe behaviors |
-| |
-| **Scalability** | Multi-board support | Native **RS485 multi-drop bus** |
-| | System size | Designed for **10+ Duilio F4 boards** on the same bus |
-| | Example | **10 boards = 20 motors**, centrally coordinated |
-| | Architecture | One host, many Duilio nodes (distributed real-time control) |
-| |
-| **Motor drivers** | Driver type | External motor drivers only (no power stages on-board) |
-| | Supported interfaces | PWM/DIR |
-| | | ENABLE + DIR + PWM + STOP|
-| | | Dual-PWM (forward / reverse) |
-| | | STEP / DIR (speed or position usage) |
-| | | Analog speed (0–5 V) |
-| | | Analog speed + direction |
-| | | RC-style PWM (ESC / servo pulse) |
-| |
-| **Encoders** | Absolute encoders | **2 I²C absolute encoders** |
-| | Incremental encoders | **2 quadrature encoders (A/B)** |
-| | Index / homing | **Z channel and limit switches supported** |
-| | Usage | Position feedback, homing, zero reference |
-| |
-| **RC I/O** | RC inputs | **4 RC servo inputs** (PWM pulse capture) |
-| | RC outputs | **4 RC servo outputs** |
-| | Usage | RC receivers, ESCs, servos, mixed/manual control |
-| |
-| **Digital I/O (power)** | Power outputs | **4 NPN low-side outputs** |
-| | Load type | External relays, solenoids, lamps |
-| | Current | **< 2 A per channel** |
-| | Control | Firmware-controlled, profile-dependent |
-| |
-| **Digital I/O (logic)** | Limit switches | End-stops and safety inputs |
-| | Homing | Dedicated inputs for zeroing procedures |
-| |
-| **Analog input** | Analog channels | **2 analog inputs (0–5 V)** |
-| | Usage | Torque reference, position reference (potentiometer), analog command |
-| |
-| **Sensors** | Ultrasonic sonar | **2 ultrasonic sonar interfaces (TRIG / ECHO)** |
-| | Other sensors | Digital and analog sensors (profile-dependent) |
-| |
-| **Safety & failsafe** | Communication loss | Safe state on communication timeout |
-| | | Configurable behavior on host or bus loss |
-| | Startup safety | Motion enabled only after valid startup sequence |
-| | | Optional gesture-based or multi-condition enable |
-| | Interlocks | Hardware and firmware safety interlocks |
-| | Emergency handling | Immediate output disable on fault conditions |
-| | Watchdog | Internal watchdog and supervision logic |
-| | Default state | Outputs forced to safe state at power-up |
-| |
-| **Configuration** | Programming interface | **ST-Link (SWD)** |
-| | Configuration method | Firmware flashing and configuration via ST-Link |
-| | USB | Optional / experimental, not the primary configuration interface |
-| |
-| **Host systems** | Supported hosts | Raspberry Pi, SBCs, PC, industrial computers |
-| | Role separation | Host = logic / UI / networking |
-| | | Duilio = real-time motion and I/O control |
-| |
-| **Power input** | VIN | **6 V – 43 V** |
-| | USB | 5 V from USB |
-| | Raspberry Pi | 5 V from Pi header (HAT mode) |
-| |
-| **Raspberry Pi power** | Output | Up to **5.1 V / 5 A** |
-| | Purpose | Direct Raspberry Pi power supply |
-| |
-| **Protection** | Electrical | TVS, ESD, reverse and back-feed protection |
-| | Environment | Designed for noisy motor environments |
-| |
-| **Configuration** | Tooling | **Duilio Tools** (no-code configuration) |
-| | Advanced use | Direct firmware access possible |
-| |
-| **System philosophy** | Architecture | Motor-agnostic and driver-agnostic |
-| | Reuse | Same control logic across different machines |
+### Core platform
+- **STM32F411 (Cortex-M4F)**
+- Deterministic real-time motion control handled on-board
+- Profile-based firmware (no application code required)
+
+### Motion control
+- **2 independent motor axes per board**
+- Speed, position and torque control
+- Built-in ramps, limits, coordination and safety behaviors
+
+### Multi-driver & scalability
+- Simultaneous control of **multiple external motor drivers**
+- PWM/DIR, dual-PWM, STEP/DIR, analog (0–5 V), RC-style PWM
+- **RS485 multi-drop bus** for distributed systems  
+  *(example: 10 boards = 20 motors)*
+
+### Host integration
+- Works **standalone** via RC
+- Or as a **companion controller** for Raspberry Pi, SBCs and PCs
+- Clear role separation:  
+  *Host = logic / UI / networking*  
+  *Duilio = real-time motion and I/O*
+
+### Safety & robustness
+- Safe state on communication loss or fault
+- Controlled startup and enable sequence
+- Hardware and firmware interlocks
+- Designed for noisy motor environments
+
+---
 
 ## Status
-- **Hardware**: Third-generation prototype, multiple production iterations completed
-- **Firmware**: Actively developed and tested on real hardware
-- **Duilio Tools**: Operational and in active use, currently being adapted to the new 64-pin STM32 platform
+
+- **Hardware:** third-generation prototype, multiple production iterations completed  
+- **Firmware:** actively developed and tested on real hardware  
+- **Duilio Tools:** operational and in active use, currently adapting to the 64-pin STM32 platform  
 
 Documentation and software are published progressively as hardware validation advances.
 
 ---
 
-## Core design principles
-- **Driver-agnostic architecture**
-- **Profile-based configuration (instead of custom code)**
-- **Robust and deterministic communication**
-- **Fail-safe oriented behavior**
-- **Scalable multi-board systems**
-
----
-
-## System architecture
-
-Duilio F4 can operate as a **standalone motion controller** or as part of a **host-controlled system**.
-
-It can be driven by:
-- RC receivers
-- Raspberry Pi and other SBCs (Orange Pi, Rock Pi, Jetson Nano, …)
-- standard PCs or industrial computers
-
-When a host is present, Duilio F4 handles **deterministic real-time motion control and I/O**, while the host focuses on high-level logic, UI, networking or supervision.
-
-
----
-
-## Motor control
-Duilio F4 is designed to turn **simple, robust and cost-effective drivers** into **fully featured motion control systems**.
-
-### Supported / supportable driver interfaces
-- **PWM / DIR**
-- **PWM forward / PWM reverse (PWMF / PWMR)**
-- **ENABLE + DIR + PWM**
-- **dual-PWM speed control**
-- **STEP / DIR** (speed-based or position-based usage)
-- **analog speed** (0–5V)
-- **analog speed + direction**
-- **RC-style PWM** (servo pulses / ESCs)
-- **serial / protocol-based drivers** (profile-dependent)
-
-### Motion features (profile-dependent)
-- acceleration / deceleration ramps
-- speed limiting and soft limits
-- motion mixing (e.g. differential drive, coordinated axes)
-- position control and positioning logic
-- safety behaviors, interlocks and failsafe actions
-
-### Position feedback (profile-dependent)
-- relative position tracking
-- absolute position sensing
-- external encoders or sensors
-- hybrid approaches (combined sources)
-
-All behavior is defined through **control profiles** (interfaces, scaling, limits, dynamics, safety, optional telemetry/feedback handling).
-
----
-
-## Power supply and system integration
-Duilio F4 simplifies power distribution in robotic systems.
-
-### Power inputs
-- **VIN**: **6 V to 43 V**
-- **5 V from USB**
-- **5 V from Raspberry Pi** (HAT mode)
-
-The board automatically manages active sources and prevents back-feeding between VIN, USB.
-
-### Raspberry Pi power support
-- powers Raspberry Pi via GPIO
-- up to **5.1 V / 5 A**
-- reduces external adapters and wiring
-
-### RC servo power distribution
-- regulated servo supply for small servos/actuators
-- **PTC resettable fuse (2 A)**
-- direct servo control without external power modules (for small loads)
-
-### Protection and robustness
-- TVS transient suppression
-- ESD protection on sensitive interfaces
-- isolation/protection diodes between power domains
-
-Designed for electrically noisy environments (motor drivers, switching regulators, long cables).
-
----
-
-## Communication robustness and scalability
-Supported communication options:
-- **UART**
-- **USB**
-- **RS485** (multi-drop)
-
-In RS485 multi-board systems:
-- broadcast commands
-- per-node telemetry return
-- deterministic, low-latency behavior
-- stable operation in harsh EMI environments
-
----
-
-## Typical use cases
-- mobile robots and autonomous platforms
-- remote-controlled machines
-- multi-axis and coordinated motion systems
-- distributed robotic systems
-- Raspberry Pi–based controllers
-- rapid prototyping of custom machines
-
----
-
 ## Real-world inspiration
+
 Duilio F4 is the result of hands-on experience gained while building real machines and robotic platforms.
 
-Some of these projects are documented here:
-- ▶️ **Remote-controlled mower (2WD)** — https://youtu.be/Uh7IwvmYxhc  
-- ▶️ **Remote-controlled mower (4WD)** — https://youtu.be/W-mF7ZH8-0U  
-- ▶️ **Trike** — https://youtu.be/o_xk7uZkcA0  
-- ▶️ **Stroller** — https://youtu.be/8yrex-ifpPg  
-- ▶️ **Shaker** — https://youtu.be/M_itfUgND1k  
+Some projects are documented here:
+- ▶️ Remote-controlled mower (2WD) — https://youtu.be/Uh7IwvmYxhc  
+- ▶️ Remote-controlled mower (4WD) — https://youtu.be/W-mF7ZH8-0U  
+- ▶️ Trike — https://youtu.be/o_xk7uZkcA0  
+- ▶️ Stroller — https://youtu.be/8yrex-ifpPg  
+- ▶️ Shaker — https://youtu.be/M_itfUgND1k  
 
 ---
 
 ## Duilio Tools
+
 **Duilio Tools** is the official configuration and debugging software.
 
 It provides:
@@ -357,8 +191,8 @@ It provides:
   <img src="docs/images/duilio-tools_1.png" style="display:block; margin:auto; width:95%;">
 </div>
 
-Duilio Tools is designed so that **even users without specific programming knowledge** can configure and use the board effectively.
-Advanced users remain free to bypass the tool and work directly with the firmware.
+Duilio Tools is designed so that **even users without programming knowledge** can configure and use the board effectively.  
+Advanced users remain free to work directly with the firmware.
 
 ---
 
@@ -369,32 +203,24 @@ Duilio F4 is entering the final hardware validation phase.
 You can get involved in two ways:
 
 **1. Contribute to the project**  
-If you are interested in:
-- motion control profiles
-- real-world testing
-- documentation or tools
-- technical collaboration
-
-your feedback and experience are welcome.
+Feedback on motion profiles, real-world testing, documentation and tools is welcome.
 
 **2. Early access to the hardware**  
 A limited number of **pre-production Duilio F4 boards** will be available for:
 - beta testing on real machines
 - early adopters and system integrators
-- feedback-driven refinement before the first production batch
+- feedback-driven refinement
 
-For the launch phase, the **target cost for early access boards is in the €20–30 range**,  
-depending on configuration (e.g. THT connectors mounted or not) and production volume.
+For the launch phase, the early access boards are expected to be available at a **very accessible price**.
 
-If you are interested in contributing or receiving early hardware access:  
+
 📩 **info@duilio-project.it**  
-📩 **info@duilio.cc.it**  
 🌐 **https://duilio.cc**
 
-
-
 ---
+
 © 2026 Fabio Giuliodori — Duilio Project
+
 
 
 
