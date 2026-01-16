@@ -47,7 +47,7 @@ jobs:
                 exit 1
               fi
 
-              # Build file list inside container (portable)
+              # Build file list inside container
               FILES=$(find docs/hardware -maxdepth 1 -name "*.md" | sort | tr "\n" " ")
               if [ -z "$FILES" ]; then
                 echo "ERROR: no markdown files found in docs/hardware"
@@ -60,6 +60,7 @@ jobs:
                 -f markdown \
                 --toc \
                 --toc-depth=2 \
+                --toc-placement=after-body \
                 --resource-path=docs/hardware:docs/images:docs \
                 --pdf-engine=xelatex \
                 -V geometry:margin=2.5cm \
@@ -69,6 +70,7 @@ jobs:
                 -o docs/hardware/releases/Duilio_F4_User_Manual.pdf \
                 $FILES
             '
+
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
