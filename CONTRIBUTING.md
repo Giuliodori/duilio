@@ -26,3 +26,12 @@ Please include:
 Pull requests are welcome, but please open an issue first to discuss the proposed changes.
 
 More detailed guidelines will be added as the project grows.
+
+## Getting hardware
+
+Duilio boards are available via early access.
+
+-> https://duilio.cc/shop.html
+
+If you are interested in testing or contributing, feel free to get in touch.
+
