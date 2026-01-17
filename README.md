@@ -221,6 +221,8 @@ For the launch phase, the early access boards are expected to be available at a 
 
 © 2026 Fabio Giuliodori — Duilio Project
 
+Duilio™ and the Duilio logo are trademarks of Fabio Giuliodori. All rights reserved.
+
 
 
 
