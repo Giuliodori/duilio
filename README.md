@@ -1,11 +1,6 @@
 <p align="center">
   <img src="docs/images/logo_duilio.svg" width="400">
 </p>
-
-<div align="center">
-  <img src="docs/images/duilio_f4_top.png" style="display:block; margin:auto; width:95%;">
-</div>
-
 <p align="center">
   <img src="https://img.shields.io/badge/MCU-STM32F411-blue">
   <img src="https://img.shields.io/badge/Hardware-Prototype-orange">
@@ -14,6 +9,13 @@
   <img src="https://img.shields.io/badge/Maintained-Yes-brightgreen">
   <img src="https://img.shields.io/badge/License-MIT-green">
 </p>
+<div align="center">
+  <img src="docs/images/duilio_f4_top.png" width="45%" />
+  &nbsp;&nbsp;&nbsp;
+  <img src="docs/images/duilio_f4_bottom.png" width="45%" />
+</div>
+
+
 
 **Latest release:** v0.1.0  
 
