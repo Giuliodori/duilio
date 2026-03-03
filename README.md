@@ -21,7 +21,7 @@
 
 # DUILIO F4 — Motion Control Board
 
-📩 **info@duilio-project.it** · 🌐 **https://duilio.cc**
+📩 **info@duilio.cc** · 🌐 **https://duilio.cc**
 
 **DUILIO F4** is an **STM32-based motion control board** designed for **real machines and mobile robots**.  
 It provides ready-to-use, profile-based firmware with **built-in safety and failsafe logic**, removing the need to reinvent motion control behavior in every project.
