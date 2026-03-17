@@ -12,35 +12,28 @@
 
 # DUILIO F4
 
-DUILIO F4 is an STM32-based motion control board for real machines, mobile robots, and custom actuators.
-It sits between the high-level controller and the external motor drivers, handling real-time I/O, motion logic, and safe-state behavior on the board.
+DUILIO F4 is a motion control board built for real machines, mobile robots, and custom electromechanical systems.
+It brings together deterministic board-level control, practical field I/O, and a wiring model designed for external motor drivers, not toy demos.
 
-This public repository is a product-facing documentation repository.
-It contains the user-facing hardware manual, simplified connection diagrams, and software usage notes.
-It does not contain the complete private hardware design files, production package, or firmware source tree.
+The goal is simple: make robust motion systems easier to build.
+Instead of rewriting the same low-level glue for every machine, DUILIO F4 provides a solid control layer between the host logic and the power electronics.
 
-## What this repository includes
+## Why DUILIO F4
 
-- Public hardware manual and technical characteristics
-- Simplified wiring examples for common integration scenarios
-- Connector and pinout reference for end users and integrators
-- Public-facing notes for Duilio Tools and software distribution
+- Real-time board-level control on STM32F411
+- Two motor-control axes per board
+- RC input and RC output support
+- USB, UART, I2C, and RS485 integration
+- Separate 5 V and 3.3 V logic domains where required
+- Designed for external motor drivers, sensors, and host controllers
 
-## What this repository does not include
+## Typical applications
 
-- Full KiCad project and private hardware development files
-- Detailed production data, internal compliance files, or business documents
-- Private firmware source code and manufacturing tooling
-- Provisioning, licensing, or release-internal utilities
-
-## Documentation map
-
-- [Hardware Manual](docs/hardware/00_front_matter.md)
-- [Getting Started](docs/getting-started/README.md)
-- [Driver Examples](docs/drivers/README.md)
-- [Communication Overview](docs/communication/README.md)
-- [Safety Notes](docs/safety/README.md)
-- [Software Download](software-download/README.md)
+- RC vehicles and work machines
+- Raspberry Pi based robotic platforms
+- Dual-axis motion systems
+- Custom servo-like systems built from motor plus external driver
+- Bench validation and field prototyping
 
 ## Hardware at a glance
 
@@ -50,25 +43,19 @@ It does not contain the complete private hardware design files, production packa
   <img src="docs/images/duilio_f4_bottom.png" width="45%" alt="Duilio F4 bottom view">
 </div>
 
-- STM32F411 control core
-- Two motor-control axes per board
-- RC input and RC output support
-- USB, UART, I2C, and RS485 integration
-- Separate 5 V and 3.3 V logic domains where required
-- Designed to work with external motor drivers, not to replace them
+## Documentation
 
-## Example use cases
-
-- RC vehicles and work machines
-- Raspberry Pi based robotic platforms
-- Dual-axis motion control systems
-- Custom servo-like systems built from motor plus external driver
-- Bench validation and field prototyping
+- [Hardware Manual](docs/hardware/00_front_matter.md)
+- [Getting Started](docs/getting-started/README.md)
+- [Driver Examples](docs/drivers/README.md)
+- [Communication Overview](docs/communication/README.md)
+- [Safety Notes](docs/safety/README.md)
+- [Software Download](software-download/README.md)
 
 ## Duilio Tools
 
-Duilio Tools is the official configuration and diagnostics utility for DUILIO F4.
-The public distribution path is documented in [software-download/README.md](software-download/README.md).
+Duilio Tools is the official Windows utility for configuring and diagnosing DUILIO F4.
+It is intended to make setup and validation accessible without exposing the private development tooling.
 
 <div align="left">
   <img src="docs/images/duilio-tools_2.png" style="display:block; margin:auto; width:100%;" alt="Duilio Tools configuration view">
@@ -76,6 +63,18 @@ The public distribution path is documented in [software-download/README.md](soft
 <div align="left">
   <img src="docs/images/duilio-tools_1.png" style="display:block; margin:auto; width:95%;" alt="Duilio Tools diagnostics view">
 </div>
+
+Installer and quick Windows instructions are available in [software-download/README.md](software-download/README.md).
+
+## Scope
+
+This repository includes:
+
+- hardware manual and public technical characteristics
+- simplified wiring examples and connector reference
+- software download and end-user instructions
+
+It does not publish the full private hardware development files, production package, or private firmware source tree.
 
 ## Contact
 
