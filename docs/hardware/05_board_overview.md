@@ -1,36 +1,44 @@
 # 5. Board Overview
-This chapter provides a visual orientation of the main functional areas on the DUILIO F4 PCB.
+
+This chapter provides a user-facing orientation of the main functional areas on the DUILIO F4 PCB.
+It is intended to help identify connector groups and installation-relevant zones without exposing the complete private design package.
 
 ## 5.1 Top-side functional blocks
-The top side contains the primary user-accessible connectors and most of the high-level functional blocks. When holding the board with the silkscreen readable, the top side highlights the motor control output area, RC input/output headers, and the main communication connectors.
+The top side contains the user-facing connector groups and the most frequently accessed service points.
 
-Central area. The control core and surrounding passive components form the logic section. This area is distinct from the edge connectors and keeps short trace runs for signal integrity.
+Main areas visible from the top side:
 
-Connector edge. Along the board edge, the external connector groups are organized by function: motor control outputs, RC I/O, general I/O, and communications. These grouped blocks allow quick visual identification when wiring.
+- control and logic core around the MCU section
+- motor driver control connectors
+- RC input and RC output areas
+- host and service access, including USB and SWD
+- field I/O and communication connectors
 
-USB and service area. The USB connector and service access points are placed near the edge for easy access when the board is installed in an enclosure.
+This grouping is intended to reduce wiring errors and make installation easier when the board is mounted in an enclosure or machine frame.
 
 ## 5.2 Bottom-side functional blocks
-The bottom side carries supporting circuitry, power conditioning components, and secondary headers. These elements are intended to limit fault propagation and improve robustness, not to replace external system-level protections.
+The bottom side carries supporting circuitry, power-conditioning sections, and secondary elements related to distribution, filtering, and board service.
 
-Power regulation zone. The input conversion and filtering components are concentrated in one area to keep power routing short and reduce noise.
-
-Secondary headers and test access. Secondary connectors and test pads are distributed along the edges, aligned with the corresponding top-side connector groups.
+These areas support robustness and integration, but they do not replace correct external protection, current limiting, or machine-level safety measures.
 
 ## 5.3 Logic vs external power separation
-The board is laid out to keep logic power and external motor power clearly separated. The logic domain is concentrated around the control core and low-level connectors, while the external power interfaces are routed to the connector edge and power-conditioning area.
+The layout keeps logic and field interfacing clearly separated from external motor power.
+This is a key architectural point of DUILIO F4:
 
-This separation reduces coupling from high-current paths and simplifies inspection. When holding the board, the separation is visible as a physical gap between the logic section and the external power section.
+- the board generates and supervises control signals
+- external drivers generate motor power
+- motor current must not be routed through the board
+
+This separation improves inspection, integration clarity, and noise management in real installations.
 
 ## 5.4 Safety-related hardware features
-Protection components are grouped near the power entry and the external-facing connectors. This includes current protection on low-power rails and protection elements on exposed interfaces.
+Protection-related components are concentrated near power entry and user-facing interfaces.
+These include rail protection, interface protection, and service-oriented access points used during commissioning and troubleshooting.
 
-Status indication and service access points are placed on the top side for visibility during bring-up and diagnostics. These features allow quick confirmation of board state without probing internal circuitry.
+Status indication and service access are intentionally exposed so the integrator can verify board state without relying on hidden test fixtures.
 
 ## 5.5 Mechanical drawing and dimensions
 
-The following drawing provides the overall board dimensions and mounting references.
-It is intended for mechanical integration, enclosure design, and panel mounting.
+The following drawing provides overall dimensions and mounting references for enclosure design and mechanical integration.
 
 ![DUILIO F4 mechanical drawing](../images/duilio_f4_drawing.svg)
-

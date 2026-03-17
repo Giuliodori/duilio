@@ -1,19 +1,30 @@
 # 1. Introduction
 
 ## 1.1 What is DUILIO F4
-DUILIO F4 is a modular motion control board based on STM32, designed to act as the central interface between control logic and external motor drivers. It supports multiple control sources, including RC receivers, USB, and Raspberry Pi. The board separates 5 V and 3.3 V logic domains to accommodate mixed-voltage peripherals and improve system integration.
+DUILIO F4 is a motion control board based on STM32F411.
+It acts as the interface layer between high-level control logic and external motor drivers, handling real-time signals, field wiring, and board-level control functions.
+
+The board is intended for systems where deterministic I/O behavior, safe startup, and practical machine integration matter more than exposing raw MCU pins.
+Typical control sources include RC receivers, USB-connected PCs, Raspberry Pi, and distributed RS485 systems.
 
 ## 1.2 Intended use
 DUILIO F4 is intended for technical development and integration in:
-- Prototyping and validation benches.
-- Embedded systems requiring deterministic motor control interfaces.
-- Robotics and motion control platforms.
+
+- robots and mobile platforms
+- RC-controlled machines and custom vehicles
+- actuator control systems with external motor drivers
+- validation benches and integration prototypes
+- Raspberry Pi based control architectures
 
 ## 1.3 What DUILIO F4 is not
-DUILIO F4 is not a high-power motor driver and must be paired with appropriate external power stages. It is not a consumer plug-and-play product and is not designed for general-purpose end users. It is also not designed or certified for safety-critical environments that require functional safety compliance.
+DUILIO F4 is not a high-power motor driver and must always be paired with suitable external power stages.
+It is not a complete safety system, not a functional-safety-certified controller, and not a consumer plug-and-play motor product.
+Motor power, emergency stop strategy, and machine-level protections remain external responsibilities.
 
 ## 1.4 Typical system architectures
 Typical system architectures include:
-- STM32 standalone: the onboard MCU manages I/O and motor interfaces without external hosts.
-- STM32 + Raspberry Pi: a Raspberry Pi provides high-level control while STM32 handles real-time motion tasks.
-- RC + external drivers: RC input commands external motor drivers through DUILIO F4 interfaces.
+
+- Standalone board plus external drivers: DUILIO F4 handles motion I/O locally.
+- DUILIO F4 plus Raspberry Pi: the host runs the application logic while DUILIO F4 handles deterministic real-time control.
+- RC receiver plus external drivers: RC inputs command the board directly for manual or machine-control scenarios.
+- Multi-node RS485 installation: multiple boards are used as distributed motion and I/O nodes.

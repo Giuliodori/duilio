@@ -1,159 +1,212 @@
 # 4. Power System
 
-## 4.1 Power domains overview
-DUILIO F4 is a **control board**. It has **no power stages** on-board and is intended to drive **external motor drivers** only.
+## 4.1 Power system overview
 
-- **Logic power (5 V domain):** board electronics, communications, logic I/O.
-- **Servo power (5 V rail):** RC/servo output headers.
-- **Motor power:** always external. **Motor power never flows through DUILIO F4.**
+DUILIO F4 is a control board.
+It manages logic, field I/O, communication interfaces, and driver command lines, but it does not include motor power stages.
 
-DUILIO F4 can be supplied from a wide input **VIN (7 V to 43 V, 51 V absolute max)** which is regulated to 5 V for logic and auxiliary rails.
-VIN is for the **control electronics and low-power outputs only**. It is **not** a motor supply.
-Input transient protection is provided on VIN, but requires an external fuse for correct operation.
+Three practical rules define the intended power architecture:
 
-WARNING: Do not route motor power through DUILIO F4.
+1. Motor power is always external.
+2. DUILIO F4 distributes logic and auxiliary power only.
+3. Only one intended 5 V power direction should be active in the final system.
+
+WARNING: Do not route motor current through DUILIO F4.
+
+## 4.2 Main input supply
+
+The main board supply is VIN.
+The intended operating range is 7 V to 43 V DC, with 51 V as absolute maximum.
+
+VIN is used to feed the onboard regulation and the board-side low-power distribution.
+It is not a motor supply and must not be treated as a traction or actuator current path.
+
+For field installations, VIN should come from a regulated or well-controlled DC source sized for the board and the intended auxiliary loads.
+
+The board includes filtering and protection elements intended to improve robustness during real installation use.
+These include input-side transient protection, filtered power distribution, and protection on exposed board interfaces.
+They help reduce sensitivity to wiring noise and supply disturbances, but they do not replace correct system-level design.
+
+## 4.3 Board power domains
+
+DUILIO F4 exposes distinct practical power domains:
+
+- logic and communication power for the board electronics
+- auxiliary 5 V distribution for supported peripherals
+- RC / servo style auxiliary rail
+- optional Raspberry Pi related 5 V path depending on jumper configuration
+
+These domains are related, but they are not equivalent to a general-purpose power backplane for an entire machine.
+
+## 4.4 System-level 5 V current budget
+
+The board includes shared 5 V resources, so current must be evaluated at system level rather than pin by pin only.
 
 > NOTE: Power distribution and current limits (system-level)
 > - Individual pin current ratings are maximum limits, not guarantees.
 > - The sum of all output currents depends on the active power source.
 > - When powered from VIN: total available 5 V current approx. 3 A continuous, 5 A peak (shared).
->- When powered ONLY from USB or Raspberry Pi GPIO: total available 5 V current is typically < 0.8 A and depends on the actual current capability of the USB source or Raspberry Pi supply.
-
+> - When powered ONLY from USB or Raspberry Pi GPIO: total available 5 V current is typically < 0.8 A and depends on the actual source capability.
 > - Exceeding the total budget may cause voltage drop, reset, or thermal shutdown.
 
-## 4.2 Power scenarios
-DUILIO F4 supports three practical power scenarios. The total 5 V current budget is defined by the system-level limits above.
+This budget includes all 5 V loads connected to the board, including sensors, RC peripherals, and any host-side 5 V sharing that the selected configuration allows.
 
-- **VIN-powered system:** VIN feeds the onboard regulation, providing 5 V rails for logic and auxiliary outputs. Use this for full system operation with external drivers.
-- **USB-only logic power:** USB powers logic for bench setup and firmware work. This is limited to low current loads and should not feed external peripherals.
-- **Raspberry Pi stack power:** 5 V is supplied through the Raspberry Pi header when the link is closed. Use only for compact Pi-based systems with low 5 V load.
+## 4.5 Practical power scenarios
 
-WARNING: Use one 5 V source at a time and avoid multiple active 5 V inputs to prevent back-powering.
+DUILIO F4 supports the following practical power scenarios.
 
-## 4.3 Logic power inputs
-Logic power can be sourced from the following 5 V inputs. **Use ONE source at a time.**
+### VIN-powered system
 
-- **USB 5 V**
-  - Use for: bench setup, firmware work, quick checks.
-  - Limitations: USB current is limited; not suitable for servos or external 5 V loads.
-  - WARNING: Do not combine USB power with any other 5 V source (risk of back-feeding a host).
+This is the normal full-operation scenario.
+VIN powers the onboard regulation and the board distributes logic and auxiliary rails to supported loads.
 
-- **External regulated 5 V**
-  - Use for: installations with a dedicated 5 V regulator / BEC.
-  - Requirements: regulated 5 V within tolerance, sized for board + intended 5 V peripherals.
-  - Safety: keep wiring short, use proper gauge, and avoid noisy/long 5 V runs.
+Use this scenario for:
 
-- **Raspberry Pi 5 V (HAT / header)**
-  - Use for: compact Pi-based systems where the Pi provides the only 5 V source.
-  - Limitations: do not use Pi 5 V to power servos or external loads.
-  - WARNING: Incorrect jumper settings or simultaneous USB power can back-power the Pi or the USB host.
+- normal machine integration
+- dual-axis driver systems
+- installations with external sensors and RC peripherals
+- Raspberry Pi systems where DUILIO is the intended upstream source
 
-WARNING: One 5 V source, one direction of power flow.
+### USB-only bench setup
 
-## 4.4 Raspberry Pi power path
-DUILIO F4 can power a Raspberry Pi from its 5 V rail (up to **5.1 V / 5 A**).
-This path is **disabled by default**: the Raspberry Pi 5 V link is an **open solder jumper**.
+USB-only power is intended for bench work, communication tests, and light service operations.
+It is not intended to supply substantial external 5 V loads.
 
-When the Pi 5 V link is closed, the DUILIO 5 V rail is connected to the Raspberry Pi 5 V pins.
-This connection is **bidirectional** by nature, therefore the system must be designed with a single intended power direction.
+Use this scenario for:
 
-WARNING: BACK-POWER RISK
-- If the Pi link is closed and USB power is applied to either board, back-powering can occur.
-- Incorrect configuration can create unsafe current paths and can damage:
-  - DUILIO F4
-  - Raspberry Pi
-  - USB host / PC
+- first board checks
+- diagnostics
+- software configuration
+- no-load validation
 
-## 4.5 Servo power output
-DUILIO F4 provides a dedicated 5 V servo power rail for the RC/servo output headers.
+### Raspberry Pi powered logic setup
 
-- The servo rail is separated from logic power.
-- Current protection is provided by a **PTC resettable fuse** (RC/servo output current limited to approximately **2 A**).
-- Protection diodes help prevent unsafe reverse current paths when an external 5 V source is present.
+In some compact integrations the 5 V path may be shared with a Raspberry Pi, depending on the selected hardware configuration.
+This must be treated as a deliberate system design choice, not a casual convenience connection.
 
-Use this rail only for **small RC servos and receivers** within the current limit and total 5 V power budget.
+Use this scenario only when:
 
-WARNING: Do NOT use the servo rail to power high-current loads or motors.
-WARNING: A PTC fuse is not a power supply. It only limits fault current and may trip under load peaks.
+- the power direction is explicitly defined
+- jumper configuration is known
+- the total 5 V load remains compatible with the source
 
-## 4.6 Backup battery
-An optional **3 V backup battery** can be connected to preserve position memory and avoid re-homing.
-It is **not** a primary power source and does **not** power the main 5 V rail.
+WARNING: Avoid simultaneous active 5 V sources.
 
-- With the battery installed: position memory is retained when main power is removed.
-- Without the battery: the board operates normally but loses that memory on power-off.
+## 4.6 USB and host-side back-power risk
 
-WARNING: Observe polarity and use only the specified **3 V** battery.
-Reverse polarity or higher voltage can damage the board.
+Back-powering is one of the main integration risks on this board family.
+It can occur when USB, Raspberry Pi 5 V, and externally generated 5 V are allowed to meet without a single intended power direction.
 
-## 4.7 Grounding strategy
-DUILIO F4 requires a **common ground (GND)** with external devices such as motor drivers, sensors, and a Raspberry Pi.
+Potential consequences include:
 
-Without a shared ground, control signals have no valid reference and the system will malfunction.
+- unstable startup
+- phantom powering of logic sections
+- resets under load
+- damage to the USB host or Raspberry Pi
 
-Typical grounding mistakes:
-- Connecting only signal wires without GND.
-- Using isolated supplies without bonding grounds where required.
-- Relying on chassis/earth ground instead of signal ground.
+WARNING: One intended 5 V source, one intended power direction.
 
-WARNING: Always connect GND between DUILIO F4 and each external driver.
+## 4.7 Raspberry Pi power path
 
-## 4.8 Power-related jumpers
-Power-related jumpers are **solder links** that configure 5 V routing.
-The main user-facing power jumper is the **Raspberry Pi 5 V link**, which is **open by default** to avoid back-powering.
+DUILIO F4 can be integrated with a Raspberry Pi through the dedicated host-side connections.
+The 5 V relationship between the two devices depends on the hardware jumper configuration.
 
-Close the link only when a single power direction is intentionally chosen for the system.
+The Raspberry Pi related 5 V path is intentionally not forced by default.
+It must be treated as a controlled option that the integrator enables only after deciding which device is the source and which device is the load.
 
-WARNING: Do not change solder jumpers while the board is powered.
-This can create short circuits or unsafe power paths.
+When the related solder link is closed, current limiting and fault behavior depend more strongly on the external source and the overall system design.
 
-Advanced jumper configurations are covered in Chapter 10.
+For the public hardware specification, the intended Raspberry Pi supply path should be considered suitable for less than 2 A continuous current, with short peak demand up to 5 A, provided that:
 
-DUILIO F4 integrates on-board protection elements intended to improve robustness against wiring errors and transient events.
-These protections are **not a replacement for proper external power design**.
+- the path is intentionally enabled
+- the upstream source is adequate
+- wiring and protection are dimensioned for the expected load
+- no conflicting 5 V source is present in the system
 
-## 4.9 Power input protection and current limiting
+WARNING: If the Raspberry Pi 5 V path is enabled, review the complete power tree before connecting USB to either device.
 
-### Input transient protection (TVS diode)
+## 4.8 Auxiliary 5 V and RC / servo rail
 
-The main VIN input is protected by a **TVS diode connected in parallel** to the supply rails.
-This device clamps high-voltage transients and protects the board against short overvoltage events and supply spikes.
+The board exposes auxiliary 5 V outputs for supported peripherals, RC devices, and similar low-power accessories.
+These rails are convenient integration points, but they are still part of the shared power budget.
 
-To operate correctly, the TVS diode **requires an external fuse** installed upstream of the board power input.
-Without an upstream fuse, the TVS may be forced to dissipate excessive energy during a fault condition.
+Use the auxiliary rail for:
 
-**Recommended external protection:**
-- One fuse in series with VIN
-- Typical rating: **2 A to 5 A**, depending on supply capability and application
-- Fast or automotive-type fuse recommended
+- RC receivers
+- supported sensors
+- low-power external logic
+- small servo-style peripherals within the allowed budget
 
-The external fuse ensures that, in the event of sustained overvoltage or reverse-energy conditions, the fault is safely cleared.
+Do not use the auxiliary rail for:
 
-### 5 V rail protection (PTC fuses)
+- motor power
+- large inductive loads
+- heavy servo clusters without explicit current review
+- external devices whose startup current exceeds the shared budget
 
-The regulated 5 V rails are protected by **two independent resettable PTC fuses**.
-These devices limit current during overload or short-circuit conditions and automatically recover once the fault is removed.
+WARNING: A protected 5 V rail is not the same as an unlimited external power output.
 
-PTC protection is applied to:
-- The 5 V rail feeding RC servos and external peripherals
-- The internal 5 V logic distribution
+## 4.9 Main input protection
 
-Each rail is protected by a **PTC fuse with a nominal hold current of approximately 2 A**.
-PTC fuses are intended to **limit fault current**, not to regulate power.
+The main VIN input uses a transient protection approach based on onboard suppression plus external upstream protection.
 
-Under sustained overload or high peak current, the voltage may drop and the PTC may trip temporarily until the fault is removed and the device cools down.
+### TVS protection
 
+The board includes a TVS protection element on the VIN side to clamp transient events and supply spikes.
+This improves survivability against short overvoltage events but does not replace correct upstream protection.
 
-### Raspberry Pi power jumper and PTC bypass
+Additional filtering and distribution elements are present on the board to improve behavior in noisy electrical environments and during load transients on the logic side.
 
-When the Raspberry Pi 5 V solder jumper is **left open**, the 5 V rail supplying the Pi is protected by the PTC fuse.
+### External fuse requirement
 
-When the solder jumper is **closed**, the PTC fuse is **bypassed** in order to provide the maximum available current to the Raspberry Pi.
-This configuration is intended for applications requiring high peak current (e.g. Raspberry Pi 4 / 5 under load).
+An external fuse on VIN is part of the intended protection concept.
+Without it, a sustained fault can force the protection network to absorb more energy than intended.
 
-**Important considerations when the jumper is closed:**
-- Current limiting relies entirely on the external power source and upstream protection
-- Adequate supply capability and wiring are mandatory
-- An external fuse on VIN is strongly recommended
+Recommended public guidance:
 
-Improper configuration or insufficient upstream protection can lead to excessive current flow and thermal stress.
+- one fuse in series with VIN
+- typical range 2 A to 5 A depending on the installation
+- choose the fuse type according to the application and wiring environment
+
+## 4.10 5 V rail protection
+
+The main 5 V distribution uses resettable PTC protection.
+This helps limit overload current and reduces fault energy during shorts or wiring mistakes.
+
+Important practical points:
+
+- PTC devices limit fault current, they do not regulate power
+- voltage drop can increase before full trip
+- recovery is not instantaneous
+- repeated overloads can still lead to unstable behavior during integration
+
+When a Raspberry Pi related bypass path is intentionally enabled, the resulting protection behavior changes and must be reviewed at system level.
+
+## 4.11 Backup battery
+
+An optional 3 V backup battery can be used for retention-related functions supported by the system.
+It is not a primary board supply and does not power the main 5 V rail.
+
+Use only the intended battery type and polarity.
+Do not inject arbitrary voltage into the backup connection.
+
+## 4.12 Grounding strategy
+
+DUILIO F4 requires a common signal reference with every connected external driver, host, and sensor.
+Without a valid shared ground, logic signals such as PWM, DIR, RS485, UART, or trigger/echo lines can behave unpredictably.
+
+Typical wiring mistakes include:
+
+- connecting signal lines without ground
+- mixing supplies without defining a common reference
+- relying on chassis or shield continuity as the only signal return path
+
+WARNING: Always establish a correct ground reference before enabling control outputs.
+
+## 4.13 Power-related hardware configuration
+
+Some power paths are influenced by solder jumpers or non-default hardware configuration choices.
+These options are intended for controlled integration work, not for casual end-user modification.
+
+Do not change power-related jumpers while the board is powered.
+Incorrect settings can create unsafe current paths, bypass intended protection behavior, or back-power connected equipment.

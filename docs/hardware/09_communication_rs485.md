@@ -1,30 +1,68 @@
 # 9. Communication Interfaces
-This chapter describes the hardware communication interfaces available on DUILIO F4. Protocol details are intentionally excluded.
 
-## 9.1 RS485 interface overview
-RS485 provides a robust differential interface intended for multi-drop communication between multiple DUILIO F4 boards and a host system.
-At hardware level, the bus supports multiple nodes sharing a single pair, with each node connected in parallel.
-Differential signaling improves noise immunity in electrically noisy environments.
-No protocol definition is provided in this chapter.
+This chapter describes the public hardware-facing communication interfaces of DUILIO F4.
+It does not publish private protocol implementation details.
 
-## 9.2 RS485 hardware integration guidelines
-Use a twisted pair for the RS485 differential lines to maintain signal integrity.
-A common ground between all connected devices is required to keep the differential reference within valid limits.
-RS485 lines are differential signals only; do not apply external voltage. Termination and biasing depend on the system topology.
+## 9.1 Public communication paths
 
-Termination and biasing are required at the system level. Apply them according to network topology and cable length, without relying on default assumptions.
-Typical wiring mistakes include missing ground reference, star wiring with long stubs, and inconsistent termination.
+The board can participate in a system through several hardware-facing paths:
 
-## 9.3 I2C interface overview
-DUILIO F4 provides I2C connectors for external sensors and peripherals.
-The interface is intended for short-distance, board-level communication with compatible devices.
-I2C signals are logic-level and require compatible voltage levels on connected devices.
+- USB for bench setup, service, and configuration workflows
+- host-side serial connection for embedded controllers such as Raspberry Pi
+- RS485 for distributed node topologies
+- I2C for supported short-distance peripherals
 
-## 9.4 I2C hardware integration guidelines
-I2C is a shared bus; all devices connect in parallel and share the same clock and data lines.
-Pull-up resistors are required on the bus; ensure they exist in the system and avoid duplicating excessive pull-ups.
-Keep cable lengths short and avoid routing near high-current wiring to reduce noise and signal distortion.
-A shared ground reference between DUILIO F4 and I2C devices is mandatory.
+The actual operational role of each interface depends on the selected firmware profile and integration strategy.
 
-## 9.5 Protocol status
-This manual covers the hardware interface only. Protocol details, addressing, and timing are defined in firmware documentation and integration notes.
+## 9.2 RS485 overview
+
+RS485 is the preferred public field-bus style interface when multiple boards or remote nodes must share a differential communication link in a noisy environment.
+
+Public integration rules:
+
+- use twisted pair for A and B
+- keep a common ground reference between nodes
+- terminate according to topology and cable length
+- avoid star wiring with long branches
+
+## 9.3 RS485 installation notes
+
+RS485 mistakes that commonly cause failures include:
+
+- missing shared ground
+- swapped A/B lines
+- duplicate termination at multiple points
+- no termination where the topology requires it
+- routing the bus close to high-current switching paths without care
+
+RS485 signal lines are not power lines.
+Do not inject external voltage into them.
+
+## 9.4 Host serial connection
+
+DUILIO F4 provides a host-side serial path intended for direct integration with devices such as Raspberry Pi or other embedded hosts.
+This path should be wired with the correct TX/RX orientation and a valid common reference.
+
+Practical rules:
+
+- verify TX and RX are crossed correctly
+- confirm logic-level compatibility
+- do not confuse serial pins with the 5 V power path
+- review the power tree separately from the communication wiring
+
+## 9.5 I2C overview
+
+The board includes public I2C connector groups for supported peripherals and sensor integrations.
+These buses are intended for short-distance logic-level communication.
+
+Practical rules:
+
+- keep cable length short
+- verify device voltage compatibility
+- avoid excessive pull-up duplication
+- maintain a clean shared ground reference
+
+## 9.6 Public documentation scope
+
+This manual documents the electrical-facing integration view only.
+Detailed message structure, firmware-side protocol logic, and private implementation notes are intentionally excluded from the public repository.

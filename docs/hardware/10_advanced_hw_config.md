@@ -1,22 +1,23 @@
 # 10. Advanced Hardware Configuration
-This chapter describes non-default hardware configuration options intended for experienced integrators. Incorrect changes can cause malfunction or damage.
+
+This chapter describes non-default hardware configuration options intended for experienced integrators and service users.
+Incorrect changes can cause malfunction, back-powering, or communication issues.
 
 ## 10.1 Power-related jumpers
-Power routing jumpers configure how 5 V is distributed between DUILIO F4 and external systems. These are discussed in Chapter 4 and are open by default to avoid unsafe power paths.
+Power-related solder jumpers configure non-default 5 V routing scenarios.
+They must be changed only when the intended power direction is fully understood and documented for the machine.
 
-Modify these jumpers only when a single, well-defined power direction is required for the system. Do not change jumpers while powered or during normal operation.
-WARNING: Incorrect power jumper settings can cause back-feeding or damage to the board or the host.
+Do not change jumpers while the board is powered.
+WARNING: Incorrect jumper settings can create back-feeding paths and may damage the board, host, or connected peripherals.
 
 ## 10.2 Communication-related options
-RS485 configuration uses solder jumpers to control termination and line biasing. Default settings are suitable for small networks; larger networks may require adjustment to avoid bus loading.
-WARNING: Changes should be made only when the network topology is fully defined.
+RS485-related hardware options may include termination and bias choices depending on the intended network.
+These settings should only be changed when the bus topology is defined and verified.
 
-I2C hardware options are limited to external bus wiring and pull-up placement. Ensure only the required pull-ups are present in the system.
-
-Additional RS485/I2C hardware options are defined by the specific system topology and external wiring choices.
+For I2C integrations, verify only the necessary pull-ups are present and that cable routing is compatible with the expected signal integrity.
 
 ## 10.3 Service and recovery configuration
-BOOT configuration and SWD access are provided for service, recovery, and manufacturing use. These interfaces are intended for maintenance and should remain in their default state during normal operation.
+BOOT-related service access and SWD are provided for recovery, firmware service, and technical diagnostics.
+These interfaces are not part of the normal end-user operating path and should remain in their default state during ordinary use.
 
-Use BOOT configuration only for recovery or factory programming. Use SWD access for debugging and production testing.
 WARNING: Misuse of service interfaces can prevent normal startup or interrupt system operation.

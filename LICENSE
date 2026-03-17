@@ -1,21 +1,35 @@
-MIT License
+DUILIO F4 Public Repository License
 
-Copyright (c) 2025 Fabio
+Copyright (c) 2026 Fabio Giuliodori
+All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This repository and all materials contained in it are proprietary unless explicitly stated otherwise.
+This includes, without limitation:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+- documentation
+- images and graphics
+- diagrams and schematics
+- downloadable binaries and installers
+- text, tables, and technical descriptions
+- trademarks, logos, and branding
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Permission is granted only to access, view, and download this repository and its materials for personal evaluation, product assessment, internal review, or use with officially distributed Duilio products where applicable.
+
+Except as expressly permitted above, no part of this repository may be:
+
+- copied or redistributed
+- modified, adapted, translated, or used to create derivative works
+- republished or mirrored
+- sublicensed, sold, rented, or otherwise commercially exploited
+- reverse engineered, except where such restriction is prohibited by applicable law
+- used to reproduce, clone, or commercially manufacture the product or its documentation
+
+No patent, copyright, trademark, design, trade secret, or other intellectual property right is granted or implied by publication of this repository.
+
+For licensing requests, commercial use, redistribution, partnership inquiries, or written authorization, contact:
+
+info@duilio.cc
+
+This repository and all related materials are provided "as is", without warranties of any kind, whether express or implied, including without limitation any warranties of merchantability, fitness for a particular purpose, non-infringement, accuracy, or completeness.
+
+In no event shall the author or rights holder be liable for any claim, damages, or other liability arising from, out of, or in connection with this repository or the use of its contents.

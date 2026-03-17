@@ -1,11 +1,12 @@
-This section lists all external connectors of the DUILIO F4.
-Pin numbering follows the board silkscreen.
-Signal direction and electrical limits are reported in the "Notes" column.
-The electrical limits indicated per pin are subject to total current constraints of the board power system.
+This section lists the external connectors of DUILIO F4 based on the current public pinout reference.
+Pin numbering follows the board silkscreen and the latest workbook used as source for the public documentation.
+
+Signal direction and practical integration notes are reported from the end-user point of view.
+Electrical limits remain subject to the total current constraints of the board power system described in Chapter 4.
 
 ---
 
-![DUILIO F4 – Connector and pinout reference](../images/duilio_f4_pin.png)
+![DUILIO F4 - Connector and pinout reference](../images/duilio_f4_pin.png)
 
 ---
 
@@ -16,159 +17,160 @@ The electrical limits indicated per pin are subject to total current constraints
 > - When powered ONLY from USB or Raspberry Pi GPIO: total available 5 V current < 0.8 A.
 > - Exceeding the total budget may cause voltage drop, reset, or thermal shutdown.
 
-### Connector J1 - Main supply input
+### Connector J01 - Digital outputs and VIN distribution
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 1 | GND_PWR | Power ground (logic / signal reference) | 0 V reference, connect to system ground |
-| 2 | +VCC | Main supply input (+VIN) | Input, main power supply (VIN range 6-43V, 51 V absolute max) |
+| 1 | VIN OUT | VIN pass-through | Power rail, linked to VIN distribution |
+| 2 | VIN OUT | VIN pass-through | Power rail, linked to VIN distribution |
+| 3 | LAMP | LIGHTS output | Low-side digital output |
+| 4 | SHOT | HORN output | Low-side digital output |
+| 5 | STRT | MOTOR_ON output | Low-side digital output |
+| 6 | SAFE | MOTOR_OFF output | Low-side digital output, intended safe-state related output |
 
-### Connector J2 - RS485 interface
+### Connector J02 - RC inputs and analog inputs
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 3 | A+ | RS485 differential line A | Differential bus signal, do not apply external voltage |
-| 4 | GND | Signal ground | 0 V reference |
-| 5 | B- | RS485 differential line B | Differential bus signal, do not apply external voltage |
+| 1 | CH1 (RC_INPUT) | RC input channel 1 | Input, RC PWM style |
+| 2 | CH2 (RC_INPUT) | RC input channel 2 | Input, RC PWM style |
+| 3 | CH3 (RC_INPUT) | RC input channel 3 | Input, RC PWM style |
+| 4 | CH4 (RC_INPUT) | RC input channel 4 | Input, RC PWM style |
+| 5 | AI_L | Analog input left | Input, ADC |
+| 6 | AI_R | Analog input right | Input, ADC |
 
-### Connector J3 - SWD programming
+### Connector J03 - I2C bus A
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 6 | SWDIO | SWD programming data | Programming/debug signal, 3.3 V logic |
-| 7 | SWCLK | SWD programming clock | Programming/debug signal, 3.3 V logic |
-| 8 | GND | Signal ground | 0 V reference |
+| 1 | SDA2/A | I2C data | Bidirectional logic signal |
+| 2 | SCL2(A) | I2C clock | Bidirectional logic signal |
+| 3 | 5V | 5 V auxiliary output | Shared 5 V rail |
+| 4 | GND | Ground | Signal reference |
 
-### Connector J4 - Low-side digital outputs (OUT1-OUT4)
+### Connector J04 - I2C bus B
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 9 | OUT1 | Low-side digital output 1 (NPN) | Output, open-collector NPN, 2 A continuous (5 A peak, non-continuous) |
-| 10 | OUT2 | Low-side digital output 2 (NPN) | Output, open-collector NPN, 2 A continuous (5 A peak, non-continuous) |
-| 11 | OUT3 | Low-side digital output 3 (NPN) | Output, open-collector NPN, 2 A continuous (5 A peak, non-continuous) |
-| 12 | OUT4 | Low-side digital output 4 (NPN) | Output, open-collector NPN, 2 A continuous (5 A peak, non-continuous) |
-| 13 | +VCC | Main supply input (+VIN) | Power rail, VIN linked (same as +VCC main input) |
-| 14 | +VCC | Main supply input (+VIN) | Power rail, VIN linked (same as +VCC main input) |
+| 1 | SDA1/B | I2C data | Bidirectional logic signal |
+| 2 | SCL1/A | I2C clock | Bidirectional logic signal |
+| 3 | 5V | 5 V auxiliary output | Shared 5 V rail |
+| 4 | GND | Ground | Signal reference |
 
-### Connector J5 - 5 V and GND distribution
+### Connector J05 - USB
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Contact | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 15 | GND | Signal ground | 0 V reference |
-| 16 | GND | Signal ground | 0 V reference |
-| 17 | GND | Signal ground | 0 V reference |
-| 18 | GND | Signal ground | 0 V reference |
-| 19 | GND | Signal ground | 0 V reference |
-| 20 | GND | Signal ground | 0 V reference |
-| 21 | +5V | 5 V regulated output | Output, regulated 5 V, 0,5A |
-| 24 | +5V | 5 V regulated output | Output, regulated 5 V, 0,5A |
-| 25 | +5V | 5 V regulated output | Output, regulated 5 V, 0,5A |
-| 26 | +5V | 5 V regulated output | Output, regulated 5 V, 0,5A |
-| 27 | +5V | 5 V regulated output | Output, regulated 5 V, 0,5A |
-| 28 | +5V | 5 V regulated output | Output, regulated 5 V, 0,5A |
+| D- | USB- | USB FS DM | USB data |
+| D+ | USB+ | USB FS DP | USB data |
 
-### Connector J6 - RC inputs and analog inputs
+### Connector J06 - Status LED
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 29 | CH1_IN | RC channel 1 input (PWM) | Input, 5 V PWM signal, RC compatible (1-2 ms) |
-| 30 | CH2_IN | RC channel 2 input (PWM) | Input, 5 V PWM signal, RC compatible (1-2 ms) |
-| 31 | CH3_IN | RC channel 3 input (PWM) | Input, 5 V PWM signal, RC compatible (1-2 ms) |
-| 32 | CH4_IN | RC channel 4 input (PWM) | Input, 5 V PWM signal, RC compatible (1-2 ms) |
-| 33 | ADC1 | Analog input 1 (0-5 V) | Input, analog 0-5 V only, do not exceed 5 V |
-| 34 | ADC2 | Analog input 2 (0-5 V) | Input, analog 0-5 V only, do not exceed 5 V |
+| 1 | GND(-) | LED cathode | LED reference |
+| 2 | LED | Status LED drive | Digital output for onboard/user LED indication |
 
-### Connector J7 - I2C bus X
+### Connector J07 - Motor driver interface
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 35 | GND | Signal ground | 0 V reference |
-| 36 | +5V | 5 V regulated output | Output, regulated 5 V, total current shared 0,5A |
-| 37 | SCL_X | I2C bus X - clock | Bidirectional, I2C clock, pulled-up to 5 V (5 V logic bus) |
-| 38 | SDA_X | I2C bus X - data | Bidirectional, I2C data, pulled-up to 5 V (5 V logic bus) |
+| 1 | DIR/P(L) | Right axis DIR or second PWM line | Logic output |
+| 2 | BRK(L) | Right axis brake | Logic output |
+| 3 | RPM (L) | Left axis RPM feedback | Digital input |
+| 4 | ENA(L) | Right axis enable | Logic output |
+| 5 | PWM (Y) | Right axis PWM command | PWM output |
+| 6 | GND | Ground | Signal reference |
+| 7 | DIR/P (L) | Left axis DIR or second PWM line | Logic output |
+| 8 | BKR (L) | Left axis brake | Logic output |
+| 9 | RPM (L) | Right axis RPM feedback | Digital input |
+| 10 | ENA(L) | Left axis enable | Logic output |
+| 11 | PWM(X) | Left axis PWM command | PWM output |
+| 12 | GND | Ground | Signal reference |
 
-### Connector J8 - I2C bus Y
+### Connector J08 - RS485
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 39 | GND | Signal ground | 0 V reference |
-| 40 | +5V | 5 V regulated output | Output, regulated 5 V, total current shared 0,5A |
-| 41 | SCL_Y | I2C bus Y - clock | Bidirectional, I2C clock, pulled-up to 5 V (5 V logic bus) |
-| 42 | SDA_Y | I2C bus Y - data | Bidirectional, I2C data, pulled-up to 5 V (5 V logic bus) |
+| 1 | B- | RS485 line B | Differential serial line |
+| 2 | GND | Ground | Signal reference |
+| 3 | A+ | RS485 line A | Differential serial line |
 
-### Connector J9 - Motor driver interface (control signals)
+### Connector J09 - SWD programming and service
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 43 | GND | Signal ground | 0 V reference |
-| 44 | PWM_X | Motor X PWM output | Output, 5 V logic PWM signal to motor driver |
-| 45 | ENA_X | Motor X enable output | Output, 5 V logic enable signal |
-| 46 | RPM_X | Motor X speed feedback (RPM) | Input, digital speed feedback, max 5 V |
-| 47 | BRK_X | Motor X brake output | Output, 5 V logic brake signal |
-| 48 | DIR/PWM_X | Motor X direction or dual-PWM output | Output, 5 V logic, direction or dual-PWM mode |
-| 49 | GND | Signal ground | 0 V reference |
-| 50 | PWM_Y | Motor Y PWM output | Output, 5 V logic PWM signal to motor driver |
-| 51 | ENA_Y | Motor Y enable output | Output, 5 V logic enable signal |
-| 52 | RPM_Y | Motor Y speed feedback (RPM) | Input, digital speed feedback, max 5 V |
-| 53 | BRK_Y | Motor Y brake output | Output, 5 V logic brake signal |
-| 54 | DIR/PWM_Y | Motor Y direction or dual-PWM output | Output, 5 V logic, direction or dual-PWM mode |
+| 1 | GND | Ground | Service reference |
+| 2 | SWCLK | SWD clock | 3.3 V debug/programming signal |
+| 3 | SWDIO | SWD data | 3.3 V debug/programming signal |
 
-### Connector J10 - User buttons
+### Connector J10 - Local buttons and safe inputs
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 55 | B1 | User button input 1 | Input, active-low  5 V tolerant |
-| 56 | B2 | User button input 2 | Input, active-low  5 V tolerant |
-| 57 | B3 | User button input 3 | Input, active-low  5 V tolerant |
-| 58 | GND | Signal ground | 0 V reference |
+| 1 | B0 | Button 0 | Digital input |
+| 2 | S1 | Safe input 1 | Digital input |
+| 3 | S2 | Safe input 2 | Digital input |
+| 4 | GND | Ground | Signal reference |
 
-### Connector J11 - Raspberry Pi and ultrasonic sensors
+### Connector J11 - Main power input
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 59 | SCL_PI | I2C bus Raspberry Pi - clock | Bidirectional, I2C clock to Raspberry Pi header (3.3 V bus) |
-| 60 | SDA_PI | I2C bus Raspberry Pi - data | Bidirectional, I2C data to Raspberry Pi header (3.3 V bus) |
-| 61 | 5V | 5 V output (Raspberry Pi / peripherals) | Output, regulated 5 V 0,5A |
-| 62 | GND | Signal ground | 0 V reference |
-| 63 | TRG_Y | Ultrasonic sensor Y - trigger | Output, digital trigger, 5 V logic |
-| 64 | ECO/ZY | Ultrasonic sensor Y - echo (or ZY input) | Input, echo signal, max 5 V |
-| 65 | 5V | 5 V output | Output, regulated 5 V 0,5A |
-| 66 | GND | Signal ground | 0 V reference |
-| 67 | TRG_X | Ultrasonic sensor X - trigger | Output, digital trigger, 5 V logic |
-| 68 | ECO/ZX | Ultrasonic sensor X - echo (or ZX input) | Input, echo signal, max 5 V |
-| 69 | 5V | 5 V output | Output, regulated 5 V, total current shared 0.5 A |
-| 70 | GND | Signal ground | 0 V reference |
+| 1 | VIN 7-43V | Main supply input | Input, VIN range 7-43 V |
+| 2 | GNDPWR2 | Power ground | Main power return |
 
-### Connector J12 - RC PWM outputs
+### Connector J12 - RC outputs and auxiliary 5 V / GND distribution
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 71 | CH4_OUT | RC output channel 4 (PWM) | Output, 5 V PWM signal, RC compatible |
-| 72 | CH3_OUT | RC output channel 3 (PWM) | Output, 5 V PWM signal, RC compatible |
-| 73 | CH2_OUT | RC output channel 2 (PWM) | Output, 5 V PWM signal, RC compatible |
-| 74 | CH1_OUT | RC output channel 1 (PWM) | Output, 5 V PWM signal, RC compatible |
-| 75 | 5V | 5 V output (RC / peripherals) | Output, regulated 5 V for RC / peripherals 2A PTC FUSE |
-| 76 | GND | Signal ground | 0 V reference |
+| 1 | nc | Not connected | Reserved |
+| 2 | nc | Not connected | Reserved |
+| 3 | CH1 (RC_OUTPUT) | RC output channel 1 | PWM output |
+| 4 | CH2 (RC_OUTPUT) | RC output channel 2 | PWM output |
+| 5 | CH3 (RC_OUTPUT) | RC output channel 3 | PWM output |
+| 6 | CH4 (RC_OUTPUT) | RC output channel 4 | PWM output |
+| 7 | AUX | 5 V servo/auxiliary rail | Shared auxiliary 5 V |
+| 8 | AUX | 5 V servo/auxiliary rail | Shared auxiliary 5 V |
+| 9 | AUX | 5 V servo/auxiliary rail | Shared auxiliary 5 V |
+| 10 | AUX | 5 V servo/auxiliary rail | Shared auxiliary 5 V |
+| 11 | AUX | 5 V servo/auxiliary rail | Shared auxiliary 5 V |
+| 12 | AUX | 5 V servo/auxiliary rail | Shared auxiliary 5 V |
+| 13 | GND | Ground | Signal reference |
+| 14 | GND | Ground | Signal reference |
+| 15 | GND | Ground | Signal reference |
+| 16 | GND | Ground | Signal reference |
+| 17 | GND | Ground | Signal reference |
+| 18 | GND | Ground | Signal reference |
 
-### Connector J13 - Backup battery
+### Connector J13 - Sensor channel 1
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 77 | BAT+ | Battery 3V for data save | External 3 V RTC backup battery only, do not connect to 5 V |
-| 78 | GND | Signal ground | 0 V reference |
+| 1 | ECO1 | Echo input 1 | Digital input |
+| 2 | TRG1 | Trigger output 1 | Digital output |
+| 3 | 5V | Auxiliary 5 V | Sensor supply |
+| 4 | GND | Ground | Signal reference |
 
-### Connector J14 - Raspberry Pi power and UART
+### Connector J14 - Sensor channel 2
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 79 | GND | Signal ground | 0 V reference |
-| 80 | 5.1V | 5.1 V regulated output (Raspberry Pi supply) | Output, regulated 5.1 V, 3 A continuous (5 A peak), dedicated Raspberry Pi supply |
-| 81 | TX-GPIO14 | UART TX (GPIO14) | Output, UART TX, 3.3 V logic |
-| 82 | RX-GPIO15 | UART RX (GPIO15) | Input, UART RX, 3.3 V logic |
-| 83 | GPIO17 | General purpose digital I/O | Bidirectional, GPIO, 3.3 V logic (not 5 V) |
+| 1 | ECO2 | Echo input 2 | Digital input |
+| 2 | TRG2 | Trigger output 2 | Digital output |
+| 3 | 5V | Auxiliary 5 V | Sensor supply |
+| 4 | GND | Ground | Signal reference |
 
-### Connector J15 - USB data and power
+### Connector J15 - Raspberry Pi / host serial and service header
 
-| Pin number | Pin name (silkscreen) | Function | Notes |
+| Pin | Silkscreen | Function | Notes |
 | --- | --- | --- | --- |
-| 84 | USB | USB data / power connection | USB data and power, USB data and power, onboard diode prevents external back-powering|
+| 8 | RX (RPI) | Host RX line | Serial interface pin |
+| 10 | TX(RPI) | Host TX line | Serial interface pin |
+| 11 | CLK | Debug or service clock output | Digital output |
+
+### Switch SW - Boot configuration
+
+| Position | Silkscreen | Function | Notes |
+| --- | --- | --- | --- |
+| 1 | BOOT | BOOT0 | Service / recovery use only |
