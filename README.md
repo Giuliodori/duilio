@@ -40,7 +40,7 @@ It does not contain the complete private hardware design files, production packa
 - [Driver Examples](docs/drivers/README.md)
 - [Communication Overview](docs/communication/README.md)
 - [Safety Notes](docs/safety/README.md)
-- [Duilio Tools](tools/README.md)
+- [Software Download](software-download/README.md)
 
 ## Hardware at a glance
 
@@ -68,7 +68,7 @@ It does not contain the complete private hardware design files, production packa
 ## Duilio Tools
 
 Duilio Tools is the official configuration and diagnostics utility for DUILIO F4.
-The public distribution path is documented in [tools/README.md](tools/README.md).
+The public distribution path is documented in [software-download/README.md](software-download/README.md).
 
 <div align="left">
   <img src="docs/images/duilio-tools_2.png" style="display:block; margin:auto; width:100%;" alt="Duilio Tools configuration view">

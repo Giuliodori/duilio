@@ -8,7 +8,7 @@ This section is the fast entry point for a new DUILIO F4 user.
 2. Verify the supply strategy in [../hardware/04_power_system.md](../hardware/04_power_system.md).
 3. Identify the correct connector in [../hardware/06_connectors_pinout.md](../hardware/06_connectors_pinout.md).
 4. Start from a simplified wiring example in [../hardware/08_connection_diagrams.md](../hardware/08_connection_diagrams.md).
-5. Configure the board with Duilio Tools as described in [../../tools/README.md](../../tools/README.md).
+5. Configure the board with Duilio Tools as described in [../../software-download/README.md](../../software-download/README.md).
 
 ## First integration recommendations
 

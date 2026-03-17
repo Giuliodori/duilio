@@ -1,8 +1,8 @@
-# Duilio Tools for Windows
+# Software Download
 
-Download the installer here:
+Download the Windows installer here:
 
-- [DuilioToolsInstaller.exe](releases/DuilioToolsInstaller.exe)
+- [DuilioToolsInstaller.exe](DuilioToolsInstaller.exe)
 
 ## Install on Windows
 
