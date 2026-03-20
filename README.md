@@ -22,7 +22,7 @@ Instead of rewriting the same low-level glue for every machine, DUILIO F4 provid
 
 - Real-time board-level control on STM32F411
 - Two motor-control axes per board
-- RC input and RC output support
+- 4 RC input and 4 RC output support per board
 - USB, UART, I2C, and RS485 integration
 - Separate 5 V and 3.3 V logic domains where required
 - Designed for external motor drivers, sensors, and host controllers
@@ -32,7 +32,7 @@ Instead of rewriting the same low-level glue for every machine, DUILIO F4 provid
 - RC vehicles and work machines
 - Raspberry Pi based robotic platforms
 - Dual-axis motion systems
-- Custom servo-like systems built from motor plus external driver
+- Custom servo-like systems 
 - Bench validation and field prototyping
 
 ## Hardware at a glance
