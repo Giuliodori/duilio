@@ -2,7 +2,7 @@
 
 ## 4.1 Power system overview
 
-DUILIO F4 is a control board.
+DUILIO F4 is a control board.  
 It manages logic, field I/O, communication interfaces, and driver command lines, but it does not include motor power stages.
 
 Three practical rules define the intended power architecture:
@@ -11,76 +11,94 @@ Three practical rules define the intended power architecture:
 2. DUILIO F4 distributes logic and auxiliary power only.
 3. Only one intended 5 V power direction should be active in the final system.
 
-WARNING: Do not route motor current through DUILIO F4.
+**WARNING:** Do not route motor current through DUILIO F4.
+
+---
 
 ## 4.2 Main input supply
 
-The main board supply is VIN.
-The intended operating range is 7 V to 43 V DC, with 51 V as absolute maximum.
+The main board supply is **VIN**.  
+The intended operating range is **7 V to 43 V DC**.
 
-VIN is used to feed the onboard regulation and the board-side low-power distribution.
+An **absolute maximum** condition is around **51 V transient class** (protection/survivability domain), and must **not** be treated as a continuous operating voltage.
+
+VIN is used to feed onboard regulation and board-side low-power distribution.  
 It is not a motor supply and must not be treated as a traction or actuator current path.
 
-For field installations, VIN should come from a regulated or well-controlled DC source sized for the board and the intended auxiliary loads.
+For field installations, VIN should come from a regulated or well-controlled DC source sized for the board and intended auxiliary loads.
 
-The board includes filtering and protection elements intended to improve robustness during real installation use.
-These include input-side transient protection, filtered power distribution, and protection on exposed board interfaces.
-They help reduce sensitivity to wiring noise and supply disturbances, but they do not replace correct system-level design.
+The board includes filtering and protection elements intended to improve robustness during real installation use, including input-side transient suppression and filtered distribution on exposed interfaces.  
+These features improve resilience to wiring noise and supply disturbances, but they do not replace correct system-level design.
+
+---
 
 ## 4.3 Board power domains
 
 DUILIO F4 exposes distinct practical power domains:
 
-- logic and communication power for the board electronics
-- auxiliary 5 V distribution for supported peripherals
+- logic and communication power for board electronics
+- protected logic-side 5 V distribution
 - RC / servo style auxiliary rail
-- optional Raspberry Pi related 5 V path depending on jumper configuration
+- optional Raspberry Pi related 5 V path (hardware jumper dependent)
 
 These domains are related, but they are not equivalent to a general-purpose power backplane for an entire machine.
 
+---
+
 ## 4.4 System-level 5 V current budget
 
-The board includes shared 5 V resources, so current must be evaluated at system level rather than pin by pin only.
+The board includes shared 5 V resources, so current must be evaluated at system level rather than pin-by-pin only.
 
-> NOTE: Power distribution and current limits (system-level)
+Host-side Raspberry Pi 5 V sharing (JP1 closed) must be evaluated separately from the protected logic-side 5 V rail budget.
+
+> **NOTE: Power distribution and current limits (system-level)**
 > - Individual pin current ratings are maximum limits, not guarantees.
-> - The sum of all output currents depends on the active power path.
+> - The sum of all output currents depends on the active power path and jumper configuration.
 
-> When powered from VIN:
-> - onboard 5 V generation capability: approx. 2 A continuous, 5 A peak
-> - protected 5 V rail (through current-limited switch): approx. 1.5 A total available to protected outputs
+### Protected logic-side 5 V rail (through TPS2553)
 
-> When the Raspberry Pi GPIO path is enabled:
-> - current may bypass the onboard limiter
-> - up to ~2 A continuous depending on source, connector, and wiring
+- The protected `5V` rail is generated from `5V_RAW` through a current-limited switch.
+- Configured limit is approximately **1.2 A nominal** (ILIM resistor dependent).
+- Fault behavior includes current limiting, thermal shutdown, and auto-retry.
 
-> When powered ONLY from USB or Raspberry Pi GPIO:
-> - total available current depends entirely on the external source (typically < 0.8 A for USB)
+### Upstream 5 V availability
 
-> Exceeding the effective budget may cause voltage drop, reset, or thermal shutdown.
+- Buck path (`5VBuck`) can supply the system according to converter/thermal conditions.
+- USB path (`5VUSB`) depends on external host/source capability.
+- Muxing between upstream 5 V sources is handled on board; available current still depends on source quality and wiring.
 
-This budget includes all 5 V loads connected to the board, including sensors, RC peripherals, and any host-side 5 V sharing that the selected configuration allows.
+### Important
+
+Exceeding the effective budget may cause:
+
+- voltage drop
+- brownout/reset
+- thermal shutdown or cycling
+
+This budget includes all 5 V loads connected to the board, including sensors, RC peripherals, and host-side 5 V sharing (if enabled).
+
+---
 
 ## 4.5 Practical power scenarios
 
-DUILIO F4 supports the following practical power scenarios.
+DUILIO F4 supports the following practical power scenarios.  
 Each scenario assumes a clearly defined 5 V source and power direction.
 
 ### VIN-powered system
 
-This is the normal full-operation scenario.
-VIN powers the onboard regulation and the board distributes logic and auxiliary rails to supported loads.
+This is the normal full-operation scenario.  
+VIN powers onboard regulation and the board distributes logic and auxiliary rails to supported loads.
 
 Use this scenario for:
 
 - normal machine integration
 - dual-axis driver systems
 - installations with external sensors and RC peripherals
-- Raspberry Pi systems where DUILIO is the intended upstream source
+- Raspberry Pi systems where DUILIO is the intended upstream source (if configured)
 
 ### USB-only bench setup
 
-USB-only power is intended for bench work, communication tests, and light service operations.
+USB-only power is intended for bench work, communication tests, and light service operations.  
 It is not intended to supply substantial external 5 V loads.
 
 Use this scenario for:
@@ -92,256 +110,255 @@ Use this scenario for:
 
 ### Raspberry Pi powered logic setup
 
-In some compact integrations the 5 V path may be shared with a Raspberry Pi, depending on the selected hardware configuration.
-This must be treated as a deliberate system design choice, not a casual convenience connection.
+In some compact integrations, 5 V may be shared with a Raspberry Pi depending on hardware jumper configuration.  
+This must be a deliberate design choice, not a convenience connection.
 
 Use this scenario only when:
 
-- the power direction is explicitly defined
+- power direction is explicitly defined
 - jumper configuration is known
-- the total 5 V load remains compatible with the source
+- total 5 V load is compatible with the selected source
 
-WARNING: Avoid simultaneous active 5 V sources.
+**WARNING:** Avoid simultaneous active 5 V sources unless the architecture explicitly guarantees isolation.
+
+---
 
 ## 4.6 USB and host-side back-power risk
 
-Back-powering is a configuration-dependent risk on this board.
+Back-powering is a configuration-dependent risk.
 
-It occurs only when the 5 V rail from the Raspberry Pi (GPIO header) is directly connected to the onboard 5 V rail via the solder jumper, while multiple power sources are active.
+A critical condition exists when:
 
-Critical condition:
+- the Raspberry Pi 5 V path jumper is **CLOSED**
+- VIN-powered buck path is active
+- Raspberry Pi is also powered externally (USB-C or other 5 V source)
 
-- solder jumper CLOSED
-- VIN supply active (buck enabled)
-- Raspberry Pi powered externally (via USB-C or other supply)
-
-In this case, two independent 5 V sources are shorted together, which can lead to:
+In this case, two independent 5 V sources can be forced onto a shared path, which may lead to:
 
 - unstable startup
-- current circulating between supplies
+- circulating current between supplies
 - resets under load
-- potential damage to Raspberry Pi or power circuitry
+- possible damage to Raspberry Pi or power circuitry
 
 Safe usage rules:
 
-- With solder jumper CLOSED:
-  - use only one 5 V source:
-    - either VIN → onboard buck
-    - or external Raspberry Pi power
-- With solder jumper OPEN:
-  - no risk (rails are isolated)
- 
- - Typical mistake:
+- With jumper **CLOSED**:
+  - use one intended 5 V source direction only
+  - validate full system power tree before connection
+- With jumper **OPEN**:
+  - board-to-host 5 V path remains isolated at that jumper point
+
+Typical mistake:
 
 - VIN connected
 - Raspberry Pi powered via USB-C
 - jumper accidentally closed
 
-WARNING: Never power VIN and externally power the Raspberry Pi at the same time when the solder jumper is closed.
-
-## 4.7 Raspberry Pi power path
-
-DUILIO F4 can be integrated with a Raspberry Pi through the dedicated host-side connections.
-The 5 V relationship between the two devices depends on the hardware jumper configuration.
-
-The Raspberry Pi related 5 V path is intentionally not forced by default.
-It must be treated as a controlled option that the integrator enables only after deciding which device is the source and which device is the load.
-
-When the related solder link is closed, current limiting and fault behavior depend more strongly on the external source and the overall system design.
-
-For the public hardware specification, the Raspberry Pi supply path should be considered suitable for:
-
-- up to ~2 A continuous current under typical conditions
-- higher peak currents only if the full system (connector, wiring, and source) is explicitly designed for it
-
-- the path is intentionally enabled
-- the upstream source is adequate
-- wiring and protection are dimensioned for the expected load
-- no conflicting 5 V source is present in the system
-
-WARNING: If the Raspberry Pi 5 V path is enabled, review the complete power tree before connecting USB to either device.
-
-## 4.8 Auxiliary 5 V and RC / servo rail
-
-The board provides two distinct 5 V domains with different purposes:
+**WARNING:** Never enable conflicting 5 V sources with the host-side 5 V jumper closed.
 
 ---
 
-### Protected 5 V rail (RC IN side)
+## 4.7 Raspberry Pi power path
 
-The 5 V available on the RC input side is generated and protected by the onboard regulator and current-limited switch.
+DUILIO F4 can integrate with Raspberry Pi through dedicated host-side connections.  
+The 5 V relationship depends on jumper configuration.
 
-It can be used to power:
+This path is intentionally not forced by default.  
+It must be enabled only after deciding which device is the source and which is the load.
+
+When the solder link is closed, behavior depends strongly on external source capability, wiring, and global system protection.
+
+For hardware specification, treat this path as:
+
+- suitable for moderate continuous current if source/connector/wiring are correctly sized
+- unsuitable for uncontrolled source sharing
+- requiring explicit system-level protection review
+
+Design conditions:
+
+- path intentionally enabled
+- upstream source adequate
+- wiring/protection dimensioned for expected load
+- no conflicting 5 V source active
+
+**WARNING:** If Raspberry Pi 5 V path is enabled, review the complete power tree before connecting USB to either device.
+
+---
+### Raspberry Pi current capability (JP1 closed)
+
+When the Raspberry Pi 5 V path is enabled (JP1 closed), the host-side 5 V branch is tied to the board buck-side 5 V path.
+
+Design guidance for public documentation:
+
+- **Typical continuous target:** up to ~2 A (system-dependent)
+- **Short peak events:** may be significantly higher only if source, thermal conditions, connector path, and wiring are validated
+- Do **not** treat converter headline rating as guaranteed host-side current in all conditions
+
+Important:
+- This host-side branch is a **system-level integration path**, not an always-guaranteed fixed-power output.
+- Verify voltage drop and temperature rise in the final installation.
+ 
+## 4.8 Auxiliary 5 V and RC / servo rail
+
+The board provides two distinct 5 V domains with different purposes.
+
+### Protected logic-side 5 V rail (RC IN side)
+
+The 5 V on the RC input side belongs to the board logic-side protected 5 V domain.
+
+Typical uses:
 
 - RC receivers
 - sensors
 - low-power peripherals
 
-This rail is current-limited and intended for onboard-powered devices only.
-
----
+This rail is current-limited by onboard protection and intended for board-powered devices.
 
 ### Isolated AUX / RC OUT rail (servo power bridge)
 
-The 5 V available on the RC output (AUX) side is **electrically isolated from the board 5 V rail**.
+The 5 V on RC output (AUX) side is **electrically separate from board logic 5 V** (`5V_SERVO` domain).
 
-It is **not generated by the board** and **not connected internally**.
+It is **not generated by the board logic regulator** and is intended as an external distribution bridge for servo/BEC style supply.
 
-This rail acts only as a **bridge/distribution point** for external power.
-
-NOTE: Even if the AUX 5 V rail is isolated, ground (GND) is shared with the board.
+> **NOTE:** Even when AUX/servo 5 V is isolated from logic 5 V, **GND is shared**.
 
 Typical usage:
 
-- connect an external BEC (ESC)
+- connect external BEC/servo supply
 - distribute power to RC servos
-- create a dedicated servo power rail independent from the board
+- keep servo current independent from board logic-side 5 V
 
-IMPORTANT:
+Important:
 
-- this rail provides **no voltage by itself**
-- it requires an **external 5 V source**
-- it is **not protected by the board**
-- it does **not interact with the onboard regulator**
-
----
+- this rail requires an external suitable source in the system architecture
+- this rail is not the same protected logic-side 5 V domain
+- do not assume board logic-side current limiting applies to high-current servo distribution
 
 ### Usage guidelines
 
-Use the protected 5 V rail (RC IN) for:
+Use protected logic-side 5 V for:
 
 - onboard electronics
 - low-power devices
 
-Use the AUX / RC OUT rail for:
+Use AUX / RC OUT rail for:
 
-- servo power supplied by external BEC
-- high-current loads that must remain isolated from the board
+- servo power from dedicated external source
+- high-current loads that must remain separated from board logic-side 5 V
 
-Do NOT:
+Do **NOT**:
 
-- expect AUX 5 V to power devices without external supply
-- connect AUX 5 V directly to the onboard 5 V unless explicitly intended
-- power high-current servos from the protected rail
+- assume AUX rail is equivalent to logic protected 5 V
+- tie AUX 5 V to logic 5 V unless explicitly engineered
+- power high-current servos from protected logic-side rail
+
+**WARNING:** Validate servo supply, wiring, and protection at system level.
 
 ---
-
-WARNING: The AUX 5 V rail is fully external. The board does not regulate, limit, or protect this line.
 
 ## 4.9 Main input protection
 
-The main VIN input uses a transient protection approach based on onboard suppression plus external upstream protection.
+The VIN input uses transient suppression and upstream protection strategy.
 
 ### TVS protection
 
-The board includes a TVS protection element on the VIN side to clamp transient events and supply spikes.
-This improves survivability against short overvoltage events but does not replace correct upstream protection.
+The board includes VIN-side TVS suppression to clamp transient events and supply spikes.  
+This improves survivability against short overvoltage events but does not replace upstream protection design.
 
-Additional filtering and distribution elements are present on the board to improve behavior in noisy electrical environments and during load transients on the logic side.
+Additional filtering/distribution elements are used to improve behavior in noisy environments and logic-side load transients.
 
-### External fuse recommendation
+### Fuse recommendation
 
-The board includes an internal, non-replaceable protection element intended as a last-resort safeguard.
+The board includes an onboard fuse element on VIN, but this is not a replacement for full system protection strategy.
 
-However, this internal protection is not designed to replace a proper system-level fuse.
+For safe operation, adding an external fuse on VIN is strongly recommended.
 
-For safe operation, it is strongly recommended to add an external fuse on the VIN line.
-
-Why an external fuse is recommended:
+Why external fuse is recommended:
 
 - limits fault energy at system level
-- protects wiring and connectors
-- prevents sustained stress on onboard protection components
-- allows easy replacement after a fault
+- protects wiring/connectors
+- reduces stress on onboard components
+- simplifies service after faults
 
 Recommended implementation:
 
-- one fuse in series with VIN
-- typical range: 2 A to 5 A depending on the installation
-- select fuse type according to wiring, load, and environment (fast/slow blow)
+- one series fuse on VIN
+- typical range: 2 A to 5 A (installation dependent)
+- choose fuse type (fast/slow) based on wiring, load profile, and environment
+
+**WARNING:** Onboard protection is not a substitute for correctly sized system-level external fuse protection.
 
 ---
-
-WARNING: The onboard protection is not a substitute for a properly sized external fuse.
 
 ## 4.10 5 V rail protection
 
-All exposed 5 V pins (except the isolated AUX rail) are protected by an onboard current-limited power switch.
+All exposed logic-side 5 V pins are fed through onboard 5 V protection stage (except paths intentionally bypassed by hardware configuration).
 
-The protection device limits the output current to approximately 1.5 A and includes fault handling features such as thermal shutdown and auto-retry.
+The protection stage limits current to approximately **1.2 A nominal total** and includes thermal shutdown/auto-retry behavior.
 
-What this means in practice:
+Practical effects:
 
-- short circuits and overloads are actively limited
-- fault current is controlled, not unlimited
-- the rail may shut down and automatically retry under persistent faults
-- voltage may drop when approaching the current limit
+- overloads and shorts are actively limited
+- fault current is controlled
+- persistent faults may cause cyclic restart behavior
+- voltage may sag near current limit
 
-Important considerations:
+Important:
 
-- this is a protection mechanism, not a power regulator
-- the total current budget is shared across all 5 V outputs
-- sustained overload conditions can lead to cycling (on/off behavior)
-
----
+- this is a protection mechanism, not an infinite 5 V source
+- total current budget is shared across logic-side 5 V outputs
 
 ### Scope of protection
 
-Protected:
+Protected (logic-side):
 
-- RC input 5 V
-- onboard 5 V outputs
-- all logic-side 5 V pins
+- RC input-side 5 V
+- onboard logic-side 5 V outputs
+- logic-side 5 V pins tied to protected `5V` domain
 
-Not protected:
+Not covered by the same protected path:
 
-- AUX / RC OUT 5 V rail (fully isolated, external only)
-- Raspberry Pi GPIO 5 V path when a bypass jumper is enabled
-
----
+- AUX / RC OUT servo rail (`5V_SERVO` domain)
+- host-side paths intentionally configured by jumpers
 
 ### System-level note
 
+When host-side bypass/share paths are enabled (e.g. jumper configuration), protection behavior changes and must be evaluated at system level.
 
-When the Raspberry Pi 5 V path is enabled via solder jumper, part of the system may bypass the onboard current limiter.
-
-In this configuration:
-
-- current is no longer limited to ~1.5 A
-- the effective current depends on the external 5 V source
-- protection must be evaluated at system level
-When a Raspberry Pi related bypass path is intentionally enabled (e.g. solder jumper configuration), the effective protection behavior changes and must be evaluated at system level.
+**WARNING:** The protected logic-side 5 V rail is current-limited (~1.2 A nominal), not an unlimited power source.
 
 ---
 
-WARNING: The 5 V rail is current-limited (~1.5 A total), not an unlimited power source.
-
-
 ## 4.11 Backup battery
 
-An optional 3 V backup battery can be used for retention-related functions supported by the system.
+An optional 3 V backup battery can be used for retention-related functions supported by the system.  
 It is not a primary board supply and does not power the main 5 V rail.
 
-Use only the intended battery type and polarity.
-Do not inject arbitrary voltage into the backup connection.
+Use only intended battery type and polarity.  
+Do not inject arbitrary voltage into backup battery connection.
+
+---
 
 ## 4.12 Grounding strategy
 
 DUILIO F4 requires a common signal reference with every connected external driver, host, and sensor.
-Without a valid shared ground, logic signals such as PWM, DIR, RS485, UART, or trigger/echo lines can behave unpredictably.
 
-Typical wiring mistakes include:
+Without a valid shared ground, logic signals (PWM, DIR, RS485, UART, trigger/echo, etc.) may behave unpredictably.
 
-- connecting signal lines without ground
-- mixing supplies without defining a common reference
-- relying on chassis or shield continuity as the only signal return path
+Typical wiring mistakes:
 
-WARNING: Always establish a correct ground reference before enabling control outputs.
+- signal lines without ground
+- mixed supplies without defined common reference
+- relying only on chassis/shield continuity as return path
+
+**WARNING:** Always establish correct ground reference before enabling control outputs.
+
+---
 
 ## 4.13 Power-related hardware configuration
 
-Some power paths are influenced by solder jumpers or non-default hardware configuration choices.
-These options are intended for controlled integration work, not for casual end-user modification.
+Some power paths are influenced by solder jumpers or non-default hardware options.  
+These are intended for controlled integration work, not casual end-user modification.
 
-Do not change power-related jumpers while the board is powered.
-Incorrect settings can create unsafe current paths, bypass intended protection behavior, or back-power connected equipment.
+Do not change power-related jumpers while board is powered.  
+Incorrect settings may create unsafe current paths, bypass intended protection behavior, or back-power connected equipment.
