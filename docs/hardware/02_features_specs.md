@@ -50,8 +50,8 @@ Table 2-4 - Power and protection summary
 | --- | --- | --- |
 | VIN protection concept | TVS plus external fuse required | External fuse is part of the intended protection strategy |
 | Input filtering and protection | Present on power and exposed interfaces | Intended to improve robustness against noise, wiring mistakes, and transients |
-| 5 V rail protection | Resettable PTC protection | Limits overload current, does not replace correct sizing |
-| Shared 5 V budget from VIN | Approx. 3 A continuous, 5 A peak | Shared across board auxiliary loads |
+| 5 V rail protection | TPS IC overload | Limits overload current, does not replace correct sizing |
+| Shared 5 V budget from VIN | Approx. 2 A continuous, 5 A peak | Shared across board auxiliary loads |
 | Shared 5 V budget from USB or Raspberry Pi only | Typically less than 0.8 A | Depends on the actual source capability |
 | Servo / auxiliary 5 V rail | Available on dedicated output group | Respect current limits and wiring recommendations |
 | Raspberry Pi supply path | Less than 2 A continuous, 5 A peak | Applies only when the Raspberry Pi power path is intentionally enabled and the upstream source is adequate |
