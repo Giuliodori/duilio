@@ -183,7 +183,7 @@ Design conditions:
 
 **WARNING:** If Raspberry Pi 5 V path is enabled, review the complete power tree before connecting USB to either device.
 
----
+***
 ### Raspberry Pi current capability (JP1 closed)
 
 When the Raspberry Pi 5 V path is enabled (JP1 closed), the host-side 5 V branch is tied to the board buck-side 5 V path.
