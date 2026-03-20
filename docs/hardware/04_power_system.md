@@ -267,6 +267,24 @@ This improves survivability against short overvoltage events but does not replac
 
 Additional filtering/distribution elements are used to improve behavior in noisy environments and logic-side load transients.
 
+### EMI / disturbance suppression (system robustness)
+
+DUILIO F4 includes input-stage measures intended to improve behavior in noisy electrical environments.
+
+At board level, this includes a combination of:
+
+- transient suppression on the VIN side
+- common-mode disturbance attenuation on the input path
+- high-frequency filtering and damping elements around the switching stage
+
+These measures help reduce susceptibility to conducted disturbances, switching spikes, and wiring-induced noise in real installations.
+
+Important:
+
+- these features improve robustness but are not a substitute for proper system-level EMC design
+- cable routing, grounding topology, external filtering, and enclosure strategy remain mandatory for final compliance
+- severe industrial environments may require additional external EMI filters or surge protection upstream
+
 ### Fuse recommendation
 
 The board includes an onboard fuse element on VIN, but this is not a replacement for full system protection strategy.
