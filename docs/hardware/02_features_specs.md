@@ -53,7 +53,7 @@ Table 2-4 - Power and protection summary
 | 5 V rail protection | TPS IC overload | Limits overload current, does not replace correct sizing |
 | Shared 5 V budget from VIN | Approx. 2 A continuous, 5 A peak | Shared across board auxiliary loads |
 | Shared 5 V budget from USB or Raspberry Pi only | Typically less than 0.8 A | Depends on the actual source capability |
-| Servo / auxiliary 5 V rail | Available on dedicated output group | Respect current limits and wiring recommendations |
+| Auxiliary rail | isolated available on dedicated output group | Respect current limits and wiring recommendations |
 | Raspberry Pi supply path | Less than 2 A continuous, 5 A peak | Applies only when the Raspberry Pi power path is intentionally enabled and the upstream source is adequate |
 
 ## 2.5 Environmental specifications
