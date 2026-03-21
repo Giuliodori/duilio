@@ -1,6 +1,6 @@
 # Modes & Motion
 
-## Does Duilio support closed-loop control?
+## Does DUILIO F4 support closed-loop control?
 Closed-loop control is supported for positioning modes. Speed mode uses open-loop control with a speed limiter.
 
 ## How does the speed limiter work?
