@@ -18,6 +18,13 @@ It brings together deterministic board-level control, practical field I/O, and a
 The goal is simple: make robust motion systems easier to build.
 Instead of rewriting the same low-level glue for every machine, DUILIO F4 provides a solid control layer between the host logic and the power electronics.
 
+<div align="center">
+  <img src="docs/images/duilio_f4_top.png" width="45%" alt="Duilio F4 top view">
+  &nbsp;&nbsp;&nbsp;
+  <img src="docs/images/duilio_f4_bottom.png" width="45%" alt="Duilio F4 bottom view">
+</div>
+
+
 ## Why DUILIO F4
 
 - Real-time board-level control on STM32F411
@@ -34,14 +41,6 @@ Instead of rewriting the same low-level glue for every machine, DUILIO F4 provid
 - Dual-axis motion systems
 - Custom servo-like systems 
 - Bench validation and field prototyping
-
-## Hardware at a glance
-
-<div align="center">
-  <img src="docs/images/duilio_f4_top.png" width="45%" alt="Duilio F4 top view">
-  &nbsp;&nbsp;&nbsp;
-  <img src="docs/images/duilio_f4_bottom.png" width="45%" alt="Duilio F4 bottom view">
-</div>
 
 ## Documentation
 
