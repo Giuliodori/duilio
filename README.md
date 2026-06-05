@@ -63,7 +63,7 @@ It is intended to make setup and validation accessible without exposing the priv
   <img src="docs/images/duilio-tools_1.png" style="display:block; margin:auto; width:95%;" alt="Duilio Tools diagnostics view">
 </div>
 
-Installer and quick Windows instructions are available in [software-download/README.md](software-download/README.md).
+
 
 ## Scope
 
@@ -71,7 +71,7 @@ This repository includes:
 
 - hardware manual and public technical characteristics
 - simplified wiring examples and connector reference
-- software download and end-user instructions
+
 
 It does not publish the full private hardware development files, production package, or private firmware source tree.
 
